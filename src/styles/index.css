@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Quicksand", sans-serif;
+  --color-primary: #009fe3;
+  --color-secondary: #9333ea; 
+  /* Light mode (default) */
+  --color-bg: 255 255 255;
+  --color-fg: 15 15 15;
+}
+
+/* Auto dark mode */
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-bg: 15 15 15;
+    --color-fg: 240 240 240;
+  }
+}
+
+/* Base styles */
+@layer base {
+  body {
+    @apply bg-[rgb(var(--color-bg))] text-[rgb(var(--color-fg))];
+  }
+}
+
+h1 {
+  @apply text-4xl font-bold mb-4;
+}
+
+h2 {
+  @apply text-2xl font-bold mb-3;
+}
+
+h3 {
+  @apply text-xl font-semibold mb-2;
+}
+
+h4 {
+  @apply text-lg font-semibold mb-1;
+}
+
+h5 {
+  @apply text-base font-medium mb-1;
+}
+
+h6 {
+  @apply text-sm font-medium mb-1;
+}
+
+p {
+  @apply mb-4 leading-relaxed;
+}
