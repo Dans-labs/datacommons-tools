@@ -22,32 +22,31 @@
   body {
     @apply bg-[rgb(var(--color-bg))] text-[rgb(var(--color-fg))];
   }
-}
+  h1 {
+    @apply text-4xl font-bold mb-4;
+  }
 
-h1 {
-  @apply text-4xl font-bold mb-4;
-}
+  h2 {
+    @apply text-2xl font-bold mb-3;
+  }
 
-h2 {
-  @apply text-2xl font-bold mb-3;
-}
+  h3 {
+    @apply text-xl font-semibold mb-2;
+  }
 
-h3 {
-  @apply text-xl font-semibold mb-2;
-}
+  h4 {
+    @apply text-lg font-semibold mb-1;
+  }
 
-h4 {
-  @apply text-lg font-semibold mb-1;
-}
+  h5 {
+    @apply text-base font-medium mb-1;
+  }
 
-h5 {
-  @apply text-base font-medium mb-1;
-}
+  h6 {
+    @apply text-sm font-medium mb-1;
+  }
 
-h6 {
-  @apply text-sm font-medium mb-1;
-}
-
-p {
-  @apply mb-4 leading-relaxed;
+  p {
+    @apply mb-4 leading-relaxed;
+  }
 }
