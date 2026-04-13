@@ -61,9 +61,12 @@ export default function ToolList({
           </GradientBox>
         </div>
 
-        <div className="col-span-2 flex justify-center items-center">
+        <div className="col-span-2 flex justify-center items-center flex-col">
           {isLoading && <Loader />}
           {isError && <p>Failed to load tools.</p>}
+          {tools?.length === 0 && !isLoading && (
+            <p>No tools found. Try adjusting your filters.</p>
+          )}
 
           <div
             style={{ height: virtualizer.getTotalSize(), position: "relative", width: "100%" }}
@@ -84,10 +87,6 @@ export default function ToolList({
               </div>
             ))}
           </div>
-
-          {tools?.length === 0 && !isLoading && (
-            <p>No tools found. Try adjusting your filters.</p>
-          )}
         </div>
       </div>
     </div>
