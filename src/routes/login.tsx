@@ -17,8 +17,8 @@ function RouteComponent() {
   }, [auth.isAuthenticated]);
  
   return (
-    <div className="login-page">
-      <div className="login-card">
+    <div className="flex items-center justify-center min-h-100">
+      <div className="text-center">
         <h1>Log in</h1>
         <p>Sign in with your institutional account to manage tools.</p>
         <LoginButton />

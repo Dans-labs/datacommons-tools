@@ -23,6 +23,13 @@ export function GradientBox({ children, color, ...rest }: React.ComponentPropsWi
   );
 }
 
+const colorMap = {
+  green: 'from-green-500 to-green-600',
+  blue: 'from-blue-500 to-blue-600',
+  orange: 'from-orange-500 to-orange-600',
+  indigo: 'from-indigo-500 to-indigo-600',
+};
+
 export function Tags({ label, tags, color }: { label: string; tags: string[]; color: 'green' | 'blue' | 'orange' | 'indigo' }) {
   if (tags.length === 0) return null;
   return (
@@ -30,7 +37,7 @@ export function Tags({ label, tags, color }: { label: string; tags: string[]; co
       <h4 className="text-sm">{label}</h4>
       <div className="flex gap-1 flex-wrap">
         {tags.map((t) => (
-          <span key={t} className={`bg-linear-to-b from-${color}-500 to-${color}-600 text-xs px-1.5 py-0.5 rounded-xl`}>{t}</span>
+          <span key={t} className={`bg-linear-to-b ${colorMap[color]} text-xs px-1.5 py-0.5 rounded-md text-white`}>{t}</span>
         ))}
       </div>
     </div>

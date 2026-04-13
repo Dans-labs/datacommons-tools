@@ -2,8 +2,8 @@
 
 @theme {
   --font-sans: "Quicksand", sans-serif;
-  --color-primary: #009fe3;
-  --color-secondary: #9333ea; 
+  --color-primary: #9333ea;
+  --color-secondary: #009fe3; 
   /* Light mode (default) */
   --color-bg: 255 255 255;
   --color-fg: 15 15 15;
@@ -12,7 +12,7 @@
 /* Auto dark mode */
 @media (prefers-color-scheme: dark) {
   @theme {
-    --color-bg: 15 15 15;
+    --color-bg: 25 25 25;
     --color-fg: 240 240 240;
   }
 }
