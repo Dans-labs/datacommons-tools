@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useTool, useToolRawDefinition } from '../../hooks/useTools';
-import { useState } from 'react';
 import { Tags } from '../../components/Box';
 import { Button } from '../../components/Button';
 
@@ -14,8 +13,6 @@ function RouteComponent() {
 
   const { data: tool, isLoading, isError } = useTool(toolId);
   const { data: rawDef, isLoading: rawLoading } = useToolRawDefinition(toolId);
-
-  console.log(tool)
 
   if (isLoading) return <p>Loading…</p>;
   if (isError || !tool) return <p>Tool not found.</p>;
@@ -41,11 +38,11 @@ function RouteComponent() {
       </section>
  
       <div className="mb-4">
-        <span className="text-gray-300 text-sm block">Version: {tool.version}</span>
-        <span className="text-gray-300 text-sm block">License: {tool.license ?? "No license"}</span>
-        <span className="text-gray-300 text-sm block">Created by: {tool.created_by}</span>
-        <span className="text-gray-300 text-sm block">Created at: {new Date(tool.created_at).toLocaleDateString()}</span>
-        {tool.updated_at &&<span className="text-gray-300 text-sm block">Updated at: {new Date(tool.updated_at).toLocaleDateString()}</span>}
+        <span className="text-gray-600 dark:text-gray-300 text-sm block">Version: {tool.version}</span>
+        <span className="text-gray-600 dark:text-gray-300 text-sm block">License: {tool.license ?? "No license"}</span>
+        <span className="text-gray-600 dark:text-gray-300 text-sm block">Created by: {tool.created_by}</span>
+        <span className="text-gray-600 dark:text-gray-300 text-sm block">Created at: {new Date(tool.created_at).toLocaleDateString()}</span>
+        {tool.updated_at &&<span className="text-gray-600 dark:text-gray-300 text-sm block">Updated at: {new Date(tool.updated_at).toLocaleDateString()}</span>}
       </div>
  
       <section className="">
@@ -76,7 +73,7 @@ function RouteComponent() {
           tool.input_slots.map((slot) => (
             <div key={slot.id} className="mb-2">
               <h5 className="mb-0">{slot.name}</h5>
-              <span className="text-gray-300 text-sm block">Type: {slot.type}</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm block">Type: {slot.type}</span>
               {slot.description && <p>{slot.description}</p>}
             </div>
           ))
@@ -85,7 +82,7 @@ function RouteComponent() {
         )}
       </section>
   
-      <RawBlock header="Raw Definition" data={rawDef} />
+      <RawBlock header="Raw Definition" data={rawDef} loading={rawLoading} />
       <RawBlock header="Raw Metadata" data={tool.raw_metadata} />
       <RawBlock header="Metadata Schema" data={tool.metadata_schema} />
 
@@ -93,12 +90,12 @@ function RouteComponent() {
   )
 }
 
-function RawBlock({ header, data }: { header: string; data: any }) {
+function RawBlock({ header, data, loading }: { header: string; data: any; loading?: boolean }) {
   return (
     <section className="mb-4">
       <h2 className="mb-1">{header}</h2>
       <div className="overflow-auto max-h-96 bg-linear-to-b from-indigo-500/10 to-primary/10 p-4 rounded-lg">
-        <pre className="">{JSON.stringify(data, null, 2)}</pre>
+        {loading ? <p>Loading…</p> : <pre className="">{JSON.stringify(data, null, 2)}</pre>}
       </div>
     </section>
   )

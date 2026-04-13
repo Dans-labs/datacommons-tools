@@ -18,7 +18,7 @@ function RouteComponent() {
         <div className="col-span-2">
           <p className="text-lg mb-4">Explore and create tools to enhance your data experience.</p>
           {!auth.isAuthenticated && (
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               <a href="/login" className="text-primary hover:underline">Log in</a> to manage your tools.
             </p>
           )}

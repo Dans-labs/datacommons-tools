@@ -8,7 +8,7 @@ export default function Menu() {
   const auth = useAuth();
 
   return (
-    <div className="bg-linear-to-b from-indigo-900/50 to-transparent">
+    <div className="bg-linear-to-b from-indigo-500/30 dark:from-indigo-900/50 to-transparent">
       <div className="flex items-center gap-4 p-2 w-full max-w-7xl mx-auto">
         <div className="w-60">
           <Link to="/">

@@ -4,8 +4,8 @@ import { useDebouncedCallback } from 'use-debounce';
 import Loader from "./Loader";
 import { GradientBox, Tags } from "./Box";
 import { Input } from "./Input";
-import { List, useDynamicRowHeight, type RowComponentProps } from "react-window";
 import { Button } from "./Button";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 export default function ToolList({
   title,
@@ -27,9 +27,13 @@ export default function ToolList({
     1000
   );
 
-  const rowHeight = useDynamicRowHeight({
-    defaultRowHeight: 50
+  const virtualizer = useVirtualizer({
+    count: tools?.length ?? 0,
+    getScrollElement: () => document.documentElement, // ← page scroll
+    estimateSize: () => 220,
+    overscan: 5,
   });
+
 
   return (
     <div className="max-w-7xl mx-auto p-4">
@@ -61,12 +65,25 @@ export default function ToolList({
           {isLoading && <Loader />}
           {isError && <p>Failed to load tools.</p>}
 
-          <List
-            rowComponent={Tool}
-            rowCount={tools?.length || 0}
-            rowHeight={rowHeight}
-            rowProps={{ tools: tools || [] }}
-          />
+          <div
+            style={{ height: virtualizer.getTotalSize(), position: "relative", width: "100%" }}
+          >
+            {virtualizer.getVirtualItems().map((virtualItem) => (
+              <div
+                key={virtualItem.key}
+                ref={virtualizer.measureElement}  // ← auto-measures real height
+                data-index={virtualItem.index}    // ← required for measureElement
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  transform: `translateY(${virtualItem.start}px)`,
+                  width: "100%",
+                }}
+              >
+                <Tool tool={tools![virtualItem.index]} />
+              </div>
+            ))}
+          </div>
 
           {tools?.length === 0 && !isLoading && (
             <p>No tools found. Try adjusting your filters.</p>
@@ -77,14 +94,12 @@ export default function ToolList({
   );
 }
 
-function Tool({ index, tools }: RowComponentProps<{ tools: ToolOut[] }>) {
-  const tool = tools[index];
-  console.log(tool)
+function Tool({ tool }: { tool: ToolOut }) {
   return (
-    <div className="p-4 border rounded-xl mb-3 bg-black">
+    <div className="p-4 rounded-xl mb-3 bg-white dark:bg-black shadow-lg w-full">
       <div className="mb-2">
         <h3 className="mb-0 overflow-hidden text-ellipsis">{tool.name}</h3>
-        <span className="text-gray-300 text-sm">Version: {tool.version}</span>
+        <span className="text-gray-600 dark:text-gray-300 text-sm">Version: {tool.version}</span>
       </div>
       <p className="text-sm overflow-hidden text-ellipsis">{tool.description?.substring(0, 100)}...</p>
       <div className="mb-4">

@@ -5,6 +5,7 @@ export function GradientBox({ children, color, ...rest }: React.ComponentPropsWi
     <div 
       {...rest}
       className={`
+        shadow-lg
         p-1 
         rounded-xl 
         bg-linear-to-b 
@@ -16,7 +17,7 @@ export function GradientBox({ children, color, ...rest }: React.ComponentPropsWi
         }
       `}
     >
-      <div className="bg-black rounded-lg py-4 px-5">
+      <div className="bg-white dark:bg-black rounded-lg py-4 px-5">
         {children}
       </div>
     </div>

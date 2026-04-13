@@ -1,3 +1,10 @@
+export interface ToolSlot {
+  id: string | number;
+  name: string;
+  type: string;
+  description?: string | null;
+}
+
 export interface ToolOut {
   id: number;
   uri: string;
@@ -13,8 +20,8 @@ export interface ToolOut {
   output_file_formats: string[] | null;
   input_file_descriptions: string[] | null;
   output_file_descriptions: string[] | null;
-  input_slots: Record<string, unknown>[] | null;
-  output_slots: Record<string, unknown>[] | null;
+  input_slots: ToolSlot[] | null;
+  output_slots: ToolSlot[] | null;
 }
 
 export interface ToolOutExt extends ToolOut {
