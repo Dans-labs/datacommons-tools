@@ -18,18 +18,14 @@ export function LoginButton({ className }: { className?: string }) {
 export function LogoutButton({ className }: { className?: string }) {
   const auth = useAuth();
 
-  useEffect(() => {
-    // clear session storage preload data after logging in
-    // do this in the logout button, as this will render when a user has logged in
-    // also when not using the signin-callback url
-    const sessionData = sessionStorage.getItem("preloadData");
-    if (sessionData && auth.user?.session_state) {
-      sessionStorage.removeItem("preloadData");
-    }
-  }, [auth.user]);
+  const handleLogout = async () => {
+    sessionStorage.removeItem("preloadData");
+
+    await auth.removeUser(); // this is the key
+  };
 
   return (
-    <Button className={className} onClick={() => auth.signoutSilent()}>
+    <Button className={className} onClick={handleLogout}>
       {auth.isLoading ? "Loading…" : "Logout"}
     </Button>
   );

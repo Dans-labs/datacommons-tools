@@ -11,3 +11,17 @@ export const fetchExtensions = async (): Promise<string[]> => {
 
   return Object.keys(data);
 };
+
+export const fetchLicenses = async (): Promise<string[]> => {
+  const res = await fetch(
+    "https://licenses.opendefinition.org/licenses/groups/all.json"
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch licenses");
+  }
+
+  const data = await res.json();
+
+  return Object.keys(data);
+};

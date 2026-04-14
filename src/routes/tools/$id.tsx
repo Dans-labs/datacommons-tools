@@ -24,8 +24,15 @@ function RouteComponent() {
   
   return (
     <div className="max-w-4xl mx-auto px-8 py-8 w-full">
+      <h1>{tool.name}</h1>
       <section className="mb-4 flex flex-wrap items-start gap-4">
-        <h1>{tool.name}</h1>
+        <div>
+          <span className="text-gray-600 dark:text-gray-300 text-sm block">Version: {tool.version}</span>
+          <span className="text-gray-600 dark:text-gray-300 text-sm block">License: {tool.license ?? "No license"}</span>
+          <span className="text-gray-600 dark:text-gray-300 text-sm block">Created by: {tool.created_by}</span>
+          <span className="text-gray-600 dark:text-gray-300 text-sm block">Created at: {new Date(tool.created_at).toLocaleDateString()}</span>
+          {tool.updated_at &&<span className="text-gray-600 dark:text-gray-300 text-sm block">Updated at: {new Date(tool.updated_at).toLocaleDateString()}</span>}
+        </div>
         <div className="flex gap-2 ml-auto">
           {tool.location && (
             <Button className="">
@@ -42,14 +49,6 @@ function RouteComponent() {
           {auth.isAuthenticated && <OutlineButton className="mr-2"><Link to={`/tools/$id/edit`} params={{ id: String(toolId) }}>Edit</Link></OutlineButton>}
         </div>
       </section>
- 
-      <div className="mb-4">
-        <span className="text-gray-600 dark:text-gray-300 text-sm block">Version: {tool.version}</span>
-        <span className="text-gray-600 dark:text-gray-300 text-sm block">License: {tool.license ?? "No license"}</span>
-        <span className="text-gray-600 dark:text-gray-300 text-sm block">Created by: {tool.created_by}</span>
-        <span className="text-gray-600 dark:text-gray-300 text-sm block">Created at: {new Date(tool.created_at).toLocaleDateString()}</span>
-        {tool.updated_at &&<span className="text-gray-600 dark:text-gray-300 text-sm block">Updated at: {new Date(tool.updated_at).toLocaleDateString()}</span>}
-      </div>
  
       <section className="mb-6">
         <p>{tool.description}</p>

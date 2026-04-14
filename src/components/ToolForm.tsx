@@ -1,10 +1,11 @@
 import { Input, AutocompleteInput } from "./Input";
 import { Button } from "./Button";
 import { useState } from "react";
-import { useFileExtensions } from "../hooks/useLists";
+import { useFileExtensions, useLicenses } from "../hooks/useLists";
 import { useCreateTool, useUpdateTool } from "../hooks/useTools";
 import type { ToolCreate, ToolOutExt } from "../api/types";
 import { useNavigate } from "@tanstack/react-router";
+import { enqueueSnackbar } from 'notistack'
 
 const BLANK: ToolCreate = {
   uri: "",
@@ -58,63 +59,76 @@ export default function ToolForm({ tool, delete: handleDelete }: { tool?: ToolOu
       setError(
         "URI, name, version, description and at least one type are required."
       );
+      enqueueSnackbar('Form could not be submitted. Please fill in all required fields.', { variant: 'error' });
       return;
     }
   
     if (tool) {
       updateMutation.mutate(payload, {
-        onSuccess: () => navigate({ to: `/tools/${tool.id}` }),
-        onError: (e: any) =>
-          setError(e?.message ?? "Failed to update tool."),
+        onSuccess: () => {
+          enqueueSnackbar('Tool updated successfully!', { variant: 'success' });
+          navigate({ to: `/tools/${tool.id}` })
+        },
+        onError: (e: any) => {
+          enqueueSnackbar('Failed to update tool.', { variant: 'error' });
+          setError(e?.message ?? "Failed to update tool.");
+        },
       });
     } else {
       createMutation.mutate(payload, {
-        onSuccess: () => navigate({ to: `/tools/my-tools` }),
-        onError: (e: any) =>
-          setError(e?.message ?? "Failed to create tool."),
+        onSuccess: () => {
+          enqueueSnackbar('Tool created successfully!', { variant: 'success' });
+          navigate({ to: `/tools/my-tools` });
+        },
+        onError: (e: any) => {
+          enqueueSnackbar('Failed to create tool.', { variant: 'error' });
+          setError(e?.message ?? "Failed to create tool.");
+        },
       });
     }
   };
 
   const { data: fileExtensions, isLoading: fileExtensionsLoading, error: fileExtensionsError } = useFileExtensions();
+  const { data: licenses, isLoading: licensesLoading, error: licensesError } = useLicenses();
 
   return (
     <>
       {error && 
-        <div className="bg-red-500 rounded-xl px-4 py-3 max-w-200 mb-6">
+        <div className="bg-red-500 rounded-xl px-4 py-3 mb-6">
           Error! {error}
         </div>
       }
   
       <div className="">
-        <div className="max-w-200 mb-3">
-          <Input label="Name" value={form.name} onChange={set("name")} placeholder="My Genomic Tool" />
+        <h5 className="text-sm font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-4 mt-6">Identity</h5>
+        <div className="mb-3">
+          <Input label="Name" value={form.name} onChange={set("name")} />
         </div>
-        <div className="max-w-200 mb-3">
-          <Input label="URI" value={form.uri} onChange={set("uri")} placeholder="https://bio.tools/my-tool" />
-        </div>
-        <div className="max-w-200 grid grid-cols-2 gap-3 mb-3">
-          <Input label="Version" value={form.version} onChange={set("version")} placeholder="1.0.0" />
-          <Input label="License" value={form.license ?? ""} onChange={set("license")} placeholder="MIT" />
-        </div>
-        <div className="max-w-200 mb-3">
-          <Input label="Description" type="textarea" value={form.description} onChange={set("description")} />
-        </div>
-        <div className="max-w-200 mb-6">
+        <div className="grid grid-cols-2 gap-3 mb-3 items-start">
+          <Input label="URI" value={form.uri} onChange={set("uri")} />
           <Input label="Location (URL)" value={form.location ?? ""} onChange={set("location")} />
+          <Input label="Version" value={form.version} onChange={set("version")} />
+          <AutocompleteInput label="License" value={form.license ?? ""} onChange={(v) => setForm((p) => ({ ...p, license: v as string }))} options={licenses} loading={licensesLoading} error={licensesError?.message} />
         </div>
 
-        <p className="">Select from a list or enter values manually</p>
-        <div className="max-w-200 grid grid-cols-2 gap-3 mb-3">
-          <AutocompleteInput label="Tags" multiple freeSolo value={tagsInput} onChange={setTagsInput} />
-          <AutocompleteInput label="Keywords" multiple freeSolo value={keywordsInput} onChange={setKeywordsInput} />
-          <AutocompleteInput label="Input Formats" multiple freeSolo value={inputFormatsInput} onChange={setInputFormatsInput} options={fileExtensions} loading={fileExtensionsLoading} error={fileExtensionsError?.message} />
-          <AutocompleteInput label="Output Formats" multiple freeSolo value={outputFormatsInput} onChange={setOutputFormatsInput} options={fileExtensions} loading={fileExtensionsLoading} error={fileExtensionsError?.message} />
-          <AutocompleteInput label="Types" multiple freeSolo value={typesInput} onChange={setTypesInput} />
+        <h5 className="text-sm font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-4 mt-6">Details</h5>
+        <div className="mb-3">
+          <Input label="Description" type="textarea" value={form.description} onChange={set("description")} />
+        </div>
+        <div className="grid grid-cols-2 gap-3 mb-3 items-start">
+          <AutocompleteInput label="Tags" multiple freeSolo value={tagsInput} onChange={(v) => setTagsInput(v as string[])} />
+          <AutocompleteInput label="Keywords" multiple freeSolo value={keywordsInput} onChange={(v) => setKeywordsInput(v as string[])} />
+        </div>
+
+        <h5 className="text-sm font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-4 mt-6">Formats and types</h5>
+        <div className="grid grid-cols-2 gap-3 mb-3 items-start">
+          <AutocompleteInput label="Input Formats" multiple freeSolo value={inputFormatsInput} onChange={(v) => setInputFormatsInput(v as string[])} options={fileExtensions} loading={fileExtensionsLoading} error={fileExtensionsError?.message} />
+          <AutocompleteInput label="Output Formats" multiple freeSolo value={outputFormatsInput} onChange={(v) => setOutputFormatsInput(v as string[])} options={fileExtensions} loading={fileExtensionsLoading} error={fileExtensionsError?.message} />
+          <AutocompleteInput label="Types" multiple freeSolo value={typesInput} onChange={(v) => setTypesInput(v as string[])} />
         </div>
       </div>
   
-      <div className="flex mt-8">
+      <div className="flex justify-end mt-8">
         <Button
           className=""
           onClick={handleSubmit}

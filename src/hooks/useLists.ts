@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchExtensions } from "../api/lists";
+import { fetchExtensions, fetchLicenses } from "../api/lists";
 
 export const useFileExtensions = () => {
   return useQuery({
@@ -8,3 +8,11 @@ export const useFileExtensions = () => {
     staleTime: Infinity, // never refetch unless you want to
   });
 };
+
+export const useLicenses = () => {
+  return useQuery({
+    queryKey: ["licenses"],
+    queryFn: fetchLicenses,
+    staleTime: Infinity, // never refetch unless you want to
+  });
+}
