@@ -1,10 +1,8 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { AuthTokenSync } from "../components/Auth";
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import Menu from '../components/Menu'
 
 export interface RouterContext {
-  isAuthenticated: boolean;
 }
  
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -16,11 +14,12 @@ function RootLayout() {
   return (
     <>
       <AuthTokenSync />
+      <div className="flex flex-row min-h-screen">
       <Menu />
-      <main>
+      <main className="grow pl-70">
         <Outlet />
       </main>
-      <TanStackRouterDevtools />
+      </div>
     </>
   )
 };

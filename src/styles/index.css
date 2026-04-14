@@ -5,14 +5,14 @@
   --color-primary: #9333ea;
   --color-secondary: #009fe3; 
   /* Light mode (default) */
-  --color-bg: 242 242 242;
-  --color-fg: 15 15 15;
+  --color-bg: 240 240 240;
+  --color-fg: 3 7 18;
 }
 
 /* Auto dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: 25 25 25;
+    --color-bg: 3 7 18;
     --color-fg: 240 240 240;
   }
 }

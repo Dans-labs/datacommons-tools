@@ -16,6 +16,7 @@
     "@tanstack/react-router": "^1.168.10",
     "@tanstack/react-router-devtools": "^1.166.11",
     "@tanstack/react-virtual": "^3.13.23",
+    "@uiw/react-json-view": "^2.0.0-alpha.41",
     "oidc-client-ts": "^3.5.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

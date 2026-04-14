@@ -83,19 +83,22 @@ export function useToolRawDefinition(
 export function useCreateTool() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (body: ToolCreate) => createTool(body),
+    mutationFn: (body: ToolCreate) => {
+      console.log("Creating tool with body:", body);
+      return createTool(body);
+    },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: toolKeys.lists() });
     },
   });
 }
 
-export function useUpdateTool(id: number) {
+export function useUpdateTool(id: number | undefined) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (body: ToolUpdate) => updateTool(id, body),
+    mutationFn: (body: ToolUpdate) => id ? updateTool(id, body) : Promise.reject("Invalid ID"),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: toolKeys.detail(id) });
+      qc.invalidateQueries({ queryKey: id ? toolKeys.detail(id) : [] });
       qc.invalidateQueries({ queryKey: toolKeys.lists() });
     },
   });

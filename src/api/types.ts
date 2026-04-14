@@ -36,6 +36,7 @@ export interface ToolOutExt extends ToolOut {
 }
 
 export interface ToolCreate {
+  id?: number;
   uri: string;
   name: string;
   version: string;
@@ -59,6 +60,7 @@ export interface ToolCreate {
 }
 
 export interface ToolUpdate {
+  id?: number;
   types: string[]; // required per schema
   uri?: string | null;
   location?: string | null;

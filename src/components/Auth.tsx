@@ -4,18 +4,18 @@ import { Button } from './Button';
 import { useLocation } from "@tanstack/react-router";
 import { setAuthToken } from "../api/client";
 
-export function LoginButton() {
+export function LoginButton({ className }: { className?: string }) {
   const auth = useAuth();
   const location = useLocation();
 
   return (
-    <Button onClick={() => auth.signinRedirect({ state: location.pathname })}>
+    <Button className={className} onClick={() => auth.signinRedirect({ state: location.pathname })}>
       {auth.isLoading ? "Loading…" : "Login"}
     </Button>
   );
 };
 
-export function LogoutButton() {
+export function LogoutButton({ className }: { className?: string }) {
   const auth = useAuth();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export function LogoutButton() {
   }, [auth.user]);
 
   return (
-    <Button onClick={() => auth.signoutSilent()}>
+    <Button className={className} onClick={() => auth.signoutSilent()}>
       {auth.isLoading ? "Loading…" : "Logout"}
     </Button>
   );

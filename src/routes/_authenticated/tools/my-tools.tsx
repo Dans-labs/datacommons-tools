@@ -1,13 +1,10 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
-import { useMyTools } from '../../hooks/useTools';
-import type { ToolsSearchParams } from '../../api/types';
-import ToolList from '../../components/ToolList';
+import { createFileRoute } from '@tanstack/react-router'
+import { useMyTools } from '../../../hooks/useTools';
+import type { ToolsSearchParams } from '../../../api/types';
+import ToolList from '../../../components/ToolList';
 import { useState } from 'react';
 
-export const Route = createFileRoute('/tools/my-tools')({
-  beforeLoad: ({ context }) => {
-    if (!context.isAuthenticated) throw redirect({ to: "/login" });
-  },
+export const Route = createFileRoute('/_authenticated/tools/my-tools')({
   component: RouteComponent,
 })
 

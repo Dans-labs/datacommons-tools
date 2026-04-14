@@ -9,17 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SigninCallbackRouteImport } from './routes/signin-callback'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ToolsIndexRouteImport } from './routes/tools/index'
-import { Route as ToolsNewRouteImport } from './routes/tools/new'
-import { Route as ToolsMyToolsRouteImport } from './routes/tools/my-tools'
 import { Route as ToolsIdRouteImport } from './routes/tools/$id'
-import { Route as ToolsIdEditRouteImport } from './routes/tools/$id.edit'
+import { Route as AuthenticatedToolsNewRouteImport } from './routes/_authenticated/tools/new'
+import { Route as AuthenticatedToolsMyToolsRouteImport } from './routes/_authenticated/tools/my-tools'
+import { Route as AuthenticatedToolsIdEditRouteImport } from './routes/_authenticated/tools/$id.edit'
 
+const SigninCallbackRoute = SigninCallbackRouteImport.update({
+  id: '/signin-callback',
+  path: '/signin-callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -27,106 +37,118 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ToolsIndexRoute = ToolsIndexRouteImport.update({
-  id: '/tools/',
-  path: '/tools/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ToolsNewRoute = ToolsNewRouteImport.update({
-  id: '/tools/new',
-  path: '/tools/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ToolsMyToolsRoute = ToolsMyToolsRouteImport.update({
-  id: '/tools/my-tools',
-  path: '/tools/my-tools',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ToolsIdRoute = ToolsIdRouteImport.update({
   id: '/tools/$id',
   path: '/tools/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ToolsIdEditRoute = ToolsIdEditRouteImport.update({
-  id: '/edit',
-  path: '/edit',
-  getParentRoute: () => ToolsIdRoute,
+const AuthenticatedToolsNewRoute = AuthenticatedToolsNewRouteImport.update({
+  id: '/tools/new',
+  path: '/tools/new',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedToolsMyToolsRoute =
+  AuthenticatedToolsMyToolsRouteImport.update({
+    id: '/tools/my-tools',
+    path: '/tools/my-tools',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedToolsIdEditRoute =
+  AuthenticatedToolsIdEditRouteImport.update({
+    id: '/tools/$id/edit',
+    path: '/tools/$id/edit',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/tools/$id': typeof ToolsIdRouteWithChildren
-  '/tools/my-tools': typeof ToolsMyToolsRoute
-  '/tools/new': typeof ToolsNewRoute
-  '/tools/': typeof ToolsIndexRoute
-  '/tools/$id/edit': typeof ToolsIdEditRoute
+  '/signin-callback': typeof SigninCallbackRoute
+  '/tools/$id': typeof ToolsIdRoute
+  '/tools/my-tools': typeof AuthenticatedToolsMyToolsRoute
+  '/tools/new': typeof AuthenticatedToolsNewRoute
+  '/tools/$id/edit': typeof AuthenticatedToolsIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/tools/$id': typeof ToolsIdRouteWithChildren
-  '/tools/my-tools': typeof ToolsMyToolsRoute
-  '/tools/new': typeof ToolsNewRoute
-  '/tools': typeof ToolsIndexRoute
-  '/tools/$id/edit': typeof ToolsIdEditRoute
+  '/signin-callback': typeof SigninCallbackRoute
+  '/tools/$id': typeof ToolsIdRoute
+  '/tools/my-tools': typeof AuthenticatedToolsMyToolsRoute
+  '/tools/new': typeof AuthenticatedToolsNewRoute
+  '/tools/$id/edit': typeof AuthenticatedToolsIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
-  '/tools/$id': typeof ToolsIdRouteWithChildren
-  '/tools/my-tools': typeof ToolsMyToolsRoute
-  '/tools/new': typeof ToolsNewRoute
-  '/tools/': typeof ToolsIndexRoute
-  '/tools/$id/edit': typeof ToolsIdEditRoute
+  '/signin-callback': typeof SigninCallbackRoute
+  '/tools/$id': typeof ToolsIdRoute
+  '/_authenticated/tools/my-tools': typeof AuthenticatedToolsMyToolsRoute
+  '/_authenticated/tools/new': typeof AuthenticatedToolsNewRoute
+  '/_authenticated/tools/$id/edit': typeof AuthenticatedToolsIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/login'
+    | '/signin-callback'
     | '/tools/$id'
     | '/tools/my-tools'
     | '/tools/new'
-    | '/tools/'
     | '/tools/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
+    | '/signin-callback'
     | '/tools/$id'
     | '/tools/my-tools'
     | '/tools/new'
-    | '/tools'
     | '/tools/$id/edit'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/login'
+    | '/signin-callback'
     | '/tools/$id'
-    | '/tools/my-tools'
-    | '/tools/new'
-    | '/tools/'
-    | '/tools/$id/edit'
+    | '/_authenticated/tools/my-tools'
+    | '/_authenticated/tools/new'
+    | '/_authenticated/tools/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
-  ToolsIdRoute: typeof ToolsIdRouteWithChildren
-  ToolsMyToolsRoute: typeof ToolsMyToolsRoute
-  ToolsNewRoute: typeof ToolsNewRoute
-  ToolsIndexRoute: typeof ToolsIndexRoute
+  SigninCallbackRoute: typeof SigninCallbackRoute
+  ToolsIdRoute: typeof ToolsIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signin-callback': {
+      id: '/signin-callback'
+      path: '/signin-callback'
+      fullPath: '/signin-callback'
+      preLoaderRoute: typeof SigninCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -136,27 +158,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tools/': {
-      id: '/tools/'
-      path: '/tools'
-      fullPath: '/tools/'
-      preLoaderRoute: typeof ToolsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tools/new': {
-      id: '/tools/new'
-      path: '/tools/new'
-      fullPath: '/tools/new'
-      preLoaderRoute: typeof ToolsNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tools/my-tools': {
-      id: '/tools/my-tools'
-      path: '/tools/my-tools'
-      fullPath: '/tools/my-tools'
-      preLoaderRoute: typeof ToolsMyToolsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/tools/$id': {
       id: '/tools/$id'
       path: '/tools/$id'
@@ -164,34 +165,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tools/$id/edit': {
-      id: '/tools/$id/edit'
-      path: '/edit'
+    '/_authenticated/tools/new': {
+      id: '/_authenticated/tools/new'
+      path: '/tools/new'
+      fullPath: '/tools/new'
+      preLoaderRoute: typeof AuthenticatedToolsNewRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/tools/my-tools': {
+      id: '/_authenticated/tools/my-tools'
+      path: '/tools/my-tools'
+      fullPath: '/tools/my-tools'
+      preLoaderRoute: typeof AuthenticatedToolsMyToolsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/tools/$id/edit': {
+      id: '/_authenticated/tools/$id/edit'
+      path: '/tools/$id/edit'
       fullPath: '/tools/$id/edit'
-      preLoaderRoute: typeof ToolsIdEditRouteImport
-      parentRoute: typeof ToolsIdRoute
+      preLoaderRoute: typeof AuthenticatedToolsIdEditRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
   }
 }
 
-interface ToolsIdRouteChildren {
-  ToolsIdEditRoute: typeof ToolsIdEditRoute
+interface AuthenticatedRouteChildren {
+  AuthenticatedToolsMyToolsRoute: typeof AuthenticatedToolsMyToolsRoute
+  AuthenticatedToolsNewRoute: typeof AuthenticatedToolsNewRoute
+  AuthenticatedToolsIdEditRoute: typeof AuthenticatedToolsIdEditRoute
 }
 
-const ToolsIdRouteChildren: ToolsIdRouteChildren = {
-  ToolsIdEditRoute: ToolsIdEditRoute,
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedToolsMyToolsRoute: AuthenticatedToolsMyToolsRoute,
+  AuthenticatedToolsNewRoute: AuthenticatedToolsNewRoute,
+  AuthenticatedToolsIdEditRoute: AuthenticatedToolsIdEditRoute,
 }
 
-const ToolsIdRouteWithChildren =
-  ToolsIdRoute._addFileChildren(ToolsIdRouteChildren)
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
-  ToolsIdRoute: ToolsIdRouteWithChildren,
-  ToolsMyToolsRoute: ToolsMyToolsRoute,
-  ToolsNewRoute: ToolsNewRoute,
-  ToolsIndexRoute: ToolsIndexRoute,
+  SigninCallbackRoute: SigninCallbackRoute,
+  ToolsIdRoute: ToolsIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
