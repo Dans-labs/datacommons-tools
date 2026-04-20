@@ -6,28 +6,12 @@
   --font-sans: "Quicksand", sans-serif;
   --color-primary: #9333ea;
   --color-secondary: #009fe3; 
-  /* Light mode (default) */
-  --color-bg: 240 240 240;
-  --color-fg: 3 7 18;
-}
-
-/* Auto dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: 3 7 18;
-    --color-fg: 240 240 240;
-  }
-}
-
-.dark {
-  --color-bg: 3 7 18;
-  --color-fg: 240 240 240;
 }
 
 /* Base styles */
 @layer base {
   body {
-    @apply bg-[rgb(var(--color-bg))] text-[rgb(var(--color-fg))];
+    @apply bg-gray-100 text-gray-900 dark:bg-gray-950 dark:text-gray-100;
   }
   h1 {
     @apply text-4xl font-bold mb-4;

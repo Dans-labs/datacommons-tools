@@ -15,10 +15,10 @@ function RootLayout() {
     <>
       <AuthTokenSync />
       <div className="flex flex-row min-h-screen">
-      <Menu />
-      <main className="grow pl-70">
-        <Outlet />
-      </main>
+        <Menu />
+        <main className="grow pl-12 sm:pl-70 max-w-screen">
+          <Outlet />
+        </main>
       </div>
     </>
   )

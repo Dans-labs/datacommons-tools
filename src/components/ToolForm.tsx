@@ -94,12 +94,12 @@ export default function ToolForm({ tool, delete: handleDelete }: { tool?: ToolOu
   return (
     <>
       {error && 
-        <div className="bg-red-500 rounded-xl px-4 py-3 mb-6">
+        <div className="bg-red-700 rounded-lg px-4 py-3 mb-6 text-white">
           Error! {error}
         </div>
       }
   
-      <div className="">
+      <form className="">
         <h5 className="text-sm font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-4 mt-6">Identity</h5>
         <div className="mb-3">
           <Input label="Name" value={form.name} onChange={set("name")} />
@@ -126,7 +126,7 @@ export default function ToolForm({ tool, delete: handleDelete }: { tool?: ToolOu
           <AutocompleteInput label="Output Formats" multiple freeSolo value={outputFormatsInput} onChange={(v) => setOutputFormatsInput(v as string[])} options={fileExtensions} loading={fileExtensionsLoading} error={fileExtensionsError?.message} />
           <AutocompleteInput label="Types" multiple freeSolo value={typesInput} onChange={(v) => setTypesInput(v as string[])} />
         </div>
-      </div>
+      </form>
   
       <div className="flex justify-end mt-8">
         <Button

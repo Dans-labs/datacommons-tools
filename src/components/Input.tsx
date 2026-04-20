@@ -16,25 +16,45 @@ export function Input({ label, ...props }: InputProps) {
   return (
     <div className="relative w-full group">
       {isTextarea ? (
-        <textarea {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)} className={sharedClass} placeholder="" />
+        <textarea
+          {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+          className={sharedClass}
+          placeholder=""
+        />
       ) : (
-        <input {...(props as React.InputHTMLAttributes<HTMLInputElement>)} type="text" className={sharedClass} placeholder="" />
+        <input
+          {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
+          type="text"
+          className={sharedClass}
+          placeholder=""
+        />
       )}
 
       <label className={`
-        absolute left-2.25 px-1 transform -translate-y-1/2 pointer-events-none transition-all duration-200
-        text-gray-400 bg-white dark:bg-gray-950
+        absolute left-2.25 px-1 -translate-y-1/2 pointer-events-none transition-all duration-200
+        text-gray-400 bg-gray-100 dark:bg-gray-950
         top-px text-sm
-        will-change-transform
         z-10
-        peer-placeholder-shown:${isTextarea ? "top-6" : "top-1/2"} peer-placeholder-shown:text-md peer-placeholder-shown:text-gray-400
+        ${isTextarea
+          ? "peer-placeholder-shown:top-6"
+          : "peer-placeholder-shown:top-1/2"
+        }
+        peer-placeholder-shown:text-md peer-placeholder-shown:text-gray-400
         group-focus-within:top-px! group-focus-within:text-sm! group-focus-within:text-indigo-500!
       `}>
         {label}
       </label>
 
-      <Fieldset label={label} legendOpen={false} className="invisible peer-placeholder-shown:visible group-focus-within:border-indigo-500! group-focus-within:visible!" />
-      <Fieldset label={label} legendOpen className="visible peer-placeholder-shown:invisible group-focus-within:border-indigo-500!" />
+      <Fieldset
+        label={label}
+        legendOpen={false}
+        className="invisible peer-placeholder-shown:visible group-focus-within:border-indigo-500! group-focus-within:visible!"
+      />
+      <Fieldset
+        label={label}
+        legendOpen
+        className="visible peer-placeholder-shown:invisible group-focus-within:border-indigo-500!"
+      />
     </div>
   );
 }
@@ -121,7 +141,7 @@ export function AutocompleteInput({
 
   // ── keyboard ──────────────────────────────────────────────────────────────
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" || e.key === " ") {
+    if (e.key === "Enter" || e.key === " " || e.key === "," || e.key === "Tab") {
       e.preventDefault();
       if (highlighted >= 0 && filtered[highlighted]) addValue(filtered[highlighted]);
       else if (freeSolo && inputValue.trim()) addValue(inputValue);
@@ -140,10 +160,11 @@ export function AutocompleteInput({
   // ── outside click ─────────────────────────────────────────────────────────
   useEffect(() => {
     const handler = (e: MouseEvent) => {
+      console.log('click', { target: e.target, container: containerRef.current, dropdown: dropdownRef.current, input: inputValue });
       if (containerRef.current?.contains(e.target as Node)) return;
+      if (freeSolo && inputValue.trim()) addValue(inputValue);
       setOpen(false);
       setHighlighted(-1);
-      if (freeSolo && !multiple && inputValue.trim()) addValue(inputValue);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -194,8 +215,8 @@ export function AutocompleteInput({
       {/* Floating label */}
       <label className={`
         absolute left-2.25 px-1 transform -translate-y-1/2 pointer-events-none transition-all duration-200
-        bg-white dark:bg-gray-950
-        ${labelFloated ? "top-px text-sm" : "top-1/2 text-md"}
+        bg-gray-100 dark:bg-gray-950 z-1
+        ${labelFloated ? "top-px text-sm" : "top-1/2 text-sm"}
         ${focused ? "text-indigo-500" : labelFloated ? "text-gray-500 dark:text-gray-400" : "text-gray-400"}
       `}>
         {label}

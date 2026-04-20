@@ -23,7 +23,7 @@ function RouteComponent() {
   if (isError || !tool) return <div className="p-20">Tool not found.</div>;
   
   return (
-    <div className="max-w-4xl mx-auto px-8 py-8 w-full">
+    <div className="max-w-4xl mx-auto p-3 sm:p-6 md:p-8 w-full">
       <h1>{tool.name}</h1>
       <section className="mb-4 flex flex-wrap items-start gap-4">
         <div>
@@ -46,7 +46,11 @@ function RouteComponent() {
               </a>
             </Button>
           )}
-          {auth.isAuthenticated && <OutlineButton className="mr-2"><Link to={`/tools/$id/edit`} params={{ id: String(toolId) }}>Edit</Link></OutlineButton>}
+          {
+            auth.isAuthenticated && 
+            auth.user?.profile?.sub === tool.created_by &&
+            <OutlineButton className="mr-2"><Link to={`/tools/$id/edit`} params={{ id: String(toolId) }}>Edit</Link></OutlineButton>
+          }
         </div>
       </section>
  
