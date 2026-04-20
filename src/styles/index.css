@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Quicksand", sans-serif;
   --color-primary: #9333ea;
@@ -15,6 +17,11 @@
     --color-bg: 3 7 18;
     --color-fg: 240 240 240;
   }
+}
+
+.dark {
+  --color-bg: 3 7 18;
+  --color-fg: 240 240 240;
 }
 
 /* Base styles */

@@ -26,7 +26,7 @@ export const searchTools = (params?: ToolsSearchParams) =>
   apiFetch<ToolOut[]>(`/api/v1/tools/${qs(params as Record<string, string | undefined>)}`, {}, false);
 
 export const searchMyTools = (params?: ToolsSearchParams) =>
-  apiFetch<ToolOut[]>(`/api/v1/tools/${qs(params as Record<string, string | undefined>)}`);
+  apiFetch<ToolOut[]>(`/api/v1/tools/${qs(params as Record<string, string | undefined>)}`, {}, true);
 
 export const createTool = (body: ToolCreate) =>
   apiFetch("/api/v1/tools/", { method: "POST", body: JSON.stringify(body) });

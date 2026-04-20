@@ -33,7 +33,7 @@ export function OutlineButton({ children, className, ...rest }: React.ComponentP
         rounded-lg
         bg-linear-to-r from-indigo-500 to-indigo-600
         font-bold
-        text-white 
+        dark:text-white 
         cursor-pointer
         disabled:bg-gray-400 
         disabled:cursor-not-allowed 

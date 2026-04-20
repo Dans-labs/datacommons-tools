@@ -2,11 +2,11 @@ import { useAuth } from "react-oidc-context"
 import { LoginButton, LogoutButton } from "./Auth";
 import { Link } from "@tanstack/react-router";
 import logoWhite from "../assets/datacommons-logo-white.svg"
-import { useHealth } from '../hooks/useTools';
+import { HealthCheck } from "./HealthCheck";
+import ThemeSwitcher from "./ThemeSwitch";
 
 export default function Menu() {
   const auth = useAuth();
-  const { data, isLoading, isError } = useHealth();
 
   return (
     <div className="bg-indigo-950 text-white w-70 fixed top-0 left-0 bottom-0">
@@ -30,14 +30,9 @@ export default function Menu() {
             {auth.isAuthenticated ? <LogoutButton className="w-full" /> : <LoginButton className="w-full" />}
           </div>
         </div>
-        <div className={`text-sm rounded-lg py-2 px-4 m-4 font-bold bg-linear-to-r ${isError ? 'from-red-500 to-red-600' : isLoading ? 'from-yellow-500 to-yellow-600' : 'from-green-500 to-green-600'}`}>
-          {
-            isLoading ? 
-            <span>Checking API health…</span> : 
-            isError ? 
-            <span>API is down.</span> :
-            <span>API status: {data?.status} (v{data?.version})</span>
-          }
+        <div className="m-4 flex flex-col gap-2">
+          <ThemeSwitcher /> 
+          <HealthCheck />
         </div>
       </div>
     </div>
@@ -47,7 +42,7 @@ export default function Menu() {
 function MenuItem({ to, children }: { to: string, children: React.ReactNode }) {
   return (
     <li>
-      <Link to={to} className="font-bold px-4 py-2 rounded-lg hover:bg-black/10 block" activeProps={{ className: "bg-black/10", }} activeOptions={{ exact: true }}>
+      <Link to={to} className="font-bold px-4 py-2 rounded-lg hover:bg-black/10 block" activeProps={{ className: "bg-black/20", }} activeOptions={{ exact: true }}>
         {children}
       </Link>
     </li>

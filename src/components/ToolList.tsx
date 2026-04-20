@@ -43,7 +43,7 @@ export default function ToolList({
   });
  
   return (
-    <div className="overflow-hidden">
+    <div className="">
       {/* header */}
       <div className="flex items-baseline gap-2.5 px-6 py-4 border-b border-gray-100 dark:border-gray-800">
         <h1>{title}</h1>
@@ -52,7 +52,7 @@ export default function ToolList({
         </span>
       </div>
  
-      <div className="flex px-6 bg-gray-50 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
+      <div className="flex px-6 bg-gray-50 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-10">
         {COLS.map((col) => (
           <div key={col.key} className={`${col.grow} py-2.5 pr-4`}>
             <p className="text-xs font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-1.5">
@@ -69,7 +69,7 @@ export default function ToolList({
       </div>
  
       {/* virtualized body */}
-      <div ref={scrollRef} className="h-full overflow-y-auto">
+      <div ref={scrollRef} className="h-full overflow-y-auto bg-gray-50 dark:bg-gray-900">
         {isLoading && (
           <div className="flex items-center justify-center h-full text-sm text-gray-400 p-10">
             <Loader />
