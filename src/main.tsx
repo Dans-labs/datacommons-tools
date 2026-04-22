@@ -9,6 +9,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { SnackbarProvider } from 'notistack'
 import { HelmetProvider } from 'react-helmet-async';
 import Loader from './components/Loader';
+import Error from './components/Error';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,7 +37,7 @@ const router = createRouter({
   // This will ensure that the loader is always called when the route is preloaded or visited
   defaultPreloadStaleTime: 0,
   defaultPendingComponent: () => <Loader />,
-  defaultNotFoundComponent: () => <div />,
+  defaultNotFoundComponent: () => <Error />,
   scrollRestoration: true,
   defaultViewTransition: {
     types: ({ fromLocation, toLocation }) => {
