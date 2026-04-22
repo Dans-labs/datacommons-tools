@@ -95,17 +95,17 @@ export default function ToolList({
             </div>
 
             {isLoading && (
-              <div className="flex items-center justify-center h-full text-sm text-gray-400 p-10">
+              <div className="flex items-center justify-center h-50 text-sm text-gray-400 p-10">
                 <Loader />
               </div>
             )}
             {isError && (
-              <div className="flex items-center justify-center h-full text-sm text-red-400">
+              <div className="flex items-center justify-center h-50 text-sm text-red-400">
                 Failed to load tools.
               </div>
             )}
             {!isLoading && !isError && (tools?.length ?? 0) === 0 && (
-              <div className="flex items-center justify-center h-full text-sm text-gray-300 dark:text-gray-600">
+              <div className="flex items-center justify-center h-50 text-sm text-gray-400 dark:text-gray-400">
                 No tools found. Try adjusting your filters.
               </div>
             )}
