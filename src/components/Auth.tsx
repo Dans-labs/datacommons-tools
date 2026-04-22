@@ -14,8 +14,8 @@ export function LoginButton({ className, hideTextOnSmall }: { className?: string
     <Button className={className} onClick={() => auth.signinRedirect({ state: location.pathname })}>
       {auth.isLoading ? <Loader noPadding size="5" /> : (
         <div className="flex justify-center items-center gap-1">
-          <LockClosedIcon className="w-5 h-5 sm:mr-2" />
-          <span className={hideTextOnSmall ? "hidden sm:block" : ""}>Login</span>
+          <LockClosedIcon className="w-5 h-5 md:mr-2" />
+          <span className={hideTextOnSmall ? "hidden md:block" : ""}>Login</span>
         </div>
       )}
     </Button>
@@ -35,8 +35,8 @@ export function LogoutButton({ className, hideTextOnSmall }: { className?: strin
     <Button className={className} onClick={handleLogout}>
       {auth.isLoading ? <Loader noPadding size="5" /> : (
         <div className="flex justify-center items-center gap-1">
-          <LockOpenIcon className="w-5 h-5 sm:mr-2" />
-          <span className={hideTextOnSmall ? "hidden sm:block" : ""}>Logout</span>
+          <LockOpenIcon className="w-5 h-5 md:mr-2" />
+          <span className={hideTextOnSmall ? "hidden md:block" : ""}>Logout</span>
         </div>
       )}
     </Button>
@@ -45,7 +45,6 @@ export function LogoutButton({ className, hideTextOnSmall }: { className?: strin
 
 export function AuthTokenSync() {
   const auth = useAuth();
-  console.log(auth)
  
   useEffect(() => {
     if (auth.isAuthenticated && auth.user?.access_token) {

@@ -1,10 +1,10 @@
-import { Link } from "@tanstack/react-router";
+import { Link  } from "@tanstack/react-router";
 import type { ToolOut, ToolsSearchParams } from "../api/types";
 import { useDebouncedCallback } from 'use-debounce';
 import Loader from "./Loader";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { TagList } from "./Tags";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 interface ToolGridProps {
   title?: string;
@@ -12,6 +12,7 @@ interface ToolGridProps {
   isLoading?: boolean;
   isError?: boolean;
   handleFilter: (key: keyof ToolsSearchParams, value: string) => void;
+  searchParams?: ToolsSearchParams;
 }
 
 const COLS = [
@@ -27,6 +28,7 @@ export default function ToolList({
   isLoading,
   isError,
   handleFilter,
+  searchParams,
 }: ToolGridProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -41,16 +43,27 @@ export default function ToolList({
     getScrollElement: () => scrollRef.current,
     estimateSize: () => 56,
     overscan: 8,
+    getItemKey: (index) => tools?.[index]?.id ?? index,
   });
+
+  useEffect(() => {
+    const targetId = sessionStorage.getItem("scrollToToolId");
+    if (!targetId || !tools?.length) return;
+
+    const index = tools.findIndex((t) => String(t.id) === targetId);
+    if (index === -1) return;
+
+    sessionStorage.removeItem("scrollToToolId");
+    setTimeout(() => {
+      rowVirtualizer.scrollToIndex(index, { align: "center", behavior: "auto" });
+    }, 50);
+  }, [tools]);
  
   return (
     <div className="h-screen overflow-hidden">
       <div className="flex items-baseline gap-2.5 px-6 py-4 border-b border-gray-100 dark:border-gray-800" ref={headerRef}>
         <h1>{title}</h1>
-        {isLoading ? 
-        <div className="ml-2"><Loader noPadding size="6" /></div> : 
-        <span className="text-sm text-gray-400">{`${tools?.length ?? 0} results`}</span>
-        }
+        <span className="text-sm text-gray-400">{isLoading ? "Fetching..." : `${tools?.length ?? 0} results`}</span>
       </div>
 
       {/* horizontal scroll wrapper — filter bar + body move together */}
@@ -70,7 +83,9 @@ export default function ToolList({
                     {col.label}
                   </p>
                   <input
+                    key={col.filterKey + (searchParams?.[col.filterKey] ?? '')}
                     type="text"
+                    defaultValue={searchParams?.[col.filterKey] ?? ''}
                     placeholder={col.placeholder}
                     onChange={(e) => debounced(col.filterKey, e.target.value)}
                     className="w-full bg-transparent border-0 border-b border-gray-200 dark:border-gray-700 rounded-none px-0 py-1 text-xs font-mono text-gray-700 dark:text-gray-300 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none focus:border-indigo-400 dark:focus:border-indigo-500 transition-colors"
@@ -122,6 +137,7 @@ function ToolRow({ tool }: { tool: ToolOut }) {
       to="/tools/$id" 
       params={{ id: String(tool.id) }}
       className="flex items-start border-b border-gray-100 dark:border-gray-800 px-6 py-2.5 hover:bg-white dark:hover:bg-gray-950 transition-colors"
+      onClick={() => sessionStorage.setItem("scrollToToolId", String(tool.id))}
     >
       <div className="flex-[2_0_180px] pr-4 min-w-0">
         <p className="font-medium text-sm text-gray-900 dark:text-gray-100 mb-1">{tool.name}</p>

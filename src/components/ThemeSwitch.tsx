@@ -41,12 +41,12 @@ export default function ThemeSwitcher() {
   return (
     <>
       {/* Mobile: single cycling icon button */}
-      <Tooltip text={`Theme: ${activeLabel}. Click to cycle.`} pos="right" className="sm:hidden">
+      <Tooltip text={`Theme: ${activeLabel}. Click to cycle.`} pos="right" className="md:hidden">
         <button
           onClick={cycleTheme}
           aria-label={`Theme: ${activeLabel}. Click to cycle.`}
           className={`
-            sm:hidden flex items-center justify-center rounded-lg p-2.5 w-full
+            md:hidden flex items-center justify-center rounded-lg p-2.5 w-full
             bg-linear-to-r from-gray-100 to-gray-300 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200
             transition-all cursor-pointer
           `}
@@ -59,7 +59,7 @@ export default function ThemeSwitcher() {
       <div
         role="group"
         aria-label="Theme"
-        className="hidden sm:inline-flex items-center gap-0.5 rounded-lg p-1 bg-black/20"
+        className="hidden md:inline-flex items-center gap-0.5 rounded-lg p-1 bg-black/20"
       >
         {themes.map(({ key, label, Icon }) => (
           <button

@@ -3,7 +3,7 @@ export function Button({ children, className, ...rest }: React.ComponentPropsWit
     <button
       {...rest}
       className={`
-        px-3 sm:px-4 
+        px-3 md:px-4 
         py-2 
         rounded-lg
         bg-linear-to-r from-indigo-500 to-indigo-600
