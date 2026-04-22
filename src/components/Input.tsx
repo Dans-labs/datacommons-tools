@@ -115,7 +115,7 @@ export function AutocompleteInput({
     (o) => o.toLowerCase().includes(inputValue.toLowerCase()) && !chips.includes(o)
   );
 
-  // ── add / remove ──────────────────────────────────────────────────────────
+  // add/remove
   const addValue = useCallback((val: string) => {
     const v = val.trim();
     if (!v || chips.includes(v)) return;
@@ -139,7 +139,7 @@ export function AutocompleteInput({
     setTimeout(() => inputRef.current?.focus(), 0);
   }, [chips, onChange]);
 
-  // ── keyboard ──────────────────────────────────────────────────────────────
+  // keyboard
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.key === " " || e.key === "," || e.key === "Tab") {
       e.preventDefault();
@@ -157,10 +157,9 @@ export function AutocompleteInput({
     if (e.key === "Escape")    { setOpen(false); setHighlighted(-1); }
   };
 
-  // ── outside click ─────────────────────────────────────────────────────────
+  // outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      console.log('click', { target: e.target, container: containerRef.current, dropdown: dropdownRef.current, input: inputValue });
       if (containerRef.current?.contains(e.target as Node)) return;
       if (freeSolo && inputValue.trim()) addValue(inputValue);
       setOpen(false);
@@ -170,7 +169,7 @@ export function AutocompleteInput({
     return () => document.removeEventListener("mousedown", handler);
   }, [inputValue, freeSolo, multiple, addValue]);
 
-  // ── scroll highlighted into view ──────────────────────────────────────────
+  // scroll highlighted into view
   useEffect(() => {
     if (highlighted >= 0 && dropdownRef.current) {
       (dropdownRef.current.children[highlighted] as HTMLElement)?.scrollIntoView({ block: "nearest" });

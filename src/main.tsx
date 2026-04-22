@@ -7,6 +7,8 @@ import { routeTree } from './routeTree.gen';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { SnackbarProvider } from 'notistack'
+import { HelmetProvider } from 'react-helmet-async';
+import Loader from './components/Loader';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,9 +35,15 @@ const router = createRouter({
   // Since we're using React Query, we don't want loader calls to ever be stale
   // This will ensure that the loader is always called when the route is preloaded or visited
   defaultPreloadStaleTime: 0,
-  defaultPendingComponent: () => <div />,
+  defaultPendingComponent: () => <Loader />,
   defaultNotFoundComponent: () => <div />,
   scrollRestoration: true,
+  defaultViewTransition: {
+    types: ({ fromLocation, toLocation }) => {
+      if (fromLocation?.pathname === toLocation?.pathname) return false
+      return ['fade']
+    }
+  }
 });
 
 declare module "@tanstack/react-router" {
@@ -44,22 +52,15 @@ declare module "@tanstack/react-router" {
   }
 }
 
-function App() {
-  return (
-    <>
-      <RouterProvider router={router} />
-      <SnackbarProvider anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} />
-    </>
-  );
-}
-
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider {...oidcConfig}>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+            <SnackbarProvider anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} />
+        </QueryClientProvider>
+      </HelmetProvider>
     </AuthProvider>
   </StrictMode>
 );

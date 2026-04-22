@@ -1,6 +1,7 @@
 // ThemeSwitcher.jsx
 import { useEffect, useState } from "react";
 import { ComputerDesktopIcon, SunIcon, MoonIcon } from "@heroicons/react/24/outline";
+import Tooltip from "./Tooltip";
 
 const themes = [
   { key: "system", label: "System", Icon: ComputerDesktopIcon },
@@ -40,17 +41,19 @@ export default function ThemeSwitcher() {
   return (
     <>
       {/* Mobile: single cycling icon button */}
-      <button
-        onClick={cycleTheme}
-        aria-label={`Theme: ${activeLabel}. Click to cycle.`}
-        className={`
-          sm:hidden flex items-center justify-center rounded-lg p-2.5
-          bg-white text-gray-500 hover:text-gray-800 dark:hover:text-gray-200
-          transition-all cursor-pointer
-        `}
-      >
-        <ActiveIcon className="h-4 w-4" />
-      </button>
+      <Tooltip text={`Theme: ${activeLabel}. Click to cycle.`} pos="right" className="sm:hidden">
+        <button
+          onClick={cycleTheme}
+          aria-label={`Theme: ${activeLabel}. Click to cycle.`}
+          className={`
+            sm:hidden flex items-center justify-center rounded-lg p-2.5 w-full
+            bg-linear-to-r from-gray-100 to-gray-300 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200
+            transition-all cursor-pointer
+          `}
+        >
+          <ActiveIcon className="h-4 w-4" />
+        </button>
+      </Tooltip>
 
       {/* Desktop: full segmented control */}
       <div
@@ -67,7 +70,7 @@ export default function ThemeSwitcher() {
               flex items-center gap-1.5 rounded-lg px-3 py-1 text-xs transition-all cursor-pointer
               ${theme === key
                 ? "bg-white text-gray-900 shadow-sm font-medium"
-                : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+                : "text-gray-500 hover:text-gray-200"
               }
             `}
           >

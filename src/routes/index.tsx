@@ -3,6 +3,7 @@ import type { ToolsSearchParams } from '../api/types';
 import { useTools } from '../hooks/useTools';
 import { useState } from 'react';
 import ToolList from '../components/ToolList';
+import Metadata from '../components/Metadata';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
@@ -16,12 +17,15 @@ function RouteComponent() {
     setParams((prev) => ({ ...prev, [key]: value || undefined }));
   
   return (
-    <ToolList 
-      title="Explore all tools"
-      tools={tools}
-      isLoading={isLoading}
-      isError={isError}
-      handleFilter={handleFilter}
-    />
+    <>
+      <Metadata title="Explore all tools" />
+      <ToolList 
+        title="Explore all tools"
+        tools={tools}
+        isLoading={isLoading}
+        isError={isError}
+        handleFilter={handleFilter}
+      />
+    </>
   );
 }

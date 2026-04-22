@@ -29,6 +29,7 @@ export default function ToolList({
   handleFilter,
 }: ToolGridProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const headerRef = useRef<HTMLDivElement | null>(null);
  
   const debounced = useDebouncedCallback(
     (key: keyof ToolsSearchParams, value: string) => handleFilter(key, value),
@@ -44,23 +45,23 @@ export default function ToolList({
  
   return (
     <div className="h-screen overflow-hidden">
-      {/* title header — stays full width, no horizontal scroll */}
-      <div className="flex items-baseline gap-2.5 px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+      <div className="flex items-baseline gap-2.5 px-6 py-4 border-b border-gray-100 dark:border-gray-800" ref={headerRef}>
         <h1>{title}</h1>
-        <span className="text-sm text-gray-400">
-          {isLoading ? "loading…" : `${tools?.length ?? 0} results`}
-        </span>
+        {isLoading ? 
+        <div className="ml-2"><Loader noPadding size="6" /></div> : 
+        <span className="text-sm text-gray-400">{`${tools?.length ?? 0} results`}</span>
+        }
       </div>
 
       {/* horizontal scroll wrapper — filter bar + body move together */}
       <div className="overflow-x-auto">
-        <div className="min-w-[640px]"> {/* prevent columns collapsing too small */}
+        <div className="min-w-160">
 
           {/* vertical scroll body */}
           <div
             ref={scrollRef}
             className="overflow-y-auto bg-gray-50 dark:bg-gray-900"
-            style={{ height: "calc(100vh - 130px)" }} // adjust offset to match your header heights
+            style={{ height: `calc(100vh - ${headerRef.current?.offsetHeight ?? 89}px)` }}
           >
             <div className="flex px-6 bg-gray-50/70 dark:bg-gray-900/70 backdrop-blur border-b border-gray-100 dark:border-gray-800 sticky top-0 z-10">
               {COLS.map((col) => (
