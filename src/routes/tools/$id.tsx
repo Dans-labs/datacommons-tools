@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useTool, useToolRawDefinition } from '../../hooks/useTools';
 import { Button, OutlineButton } from '../../components/Button';
-import { TagList } from '../../components/Tags';
+import { Tag, TagList } from '../../components/Tags';
 import JsonView from '@uiw/react-json-view';
 import { githubDarkTheme } from '@uiw/react-json-view/githubDark';
 import { githubLightTheme } from '@uiw/react-json-view/githubLight';
@@ -74,11 +74,13 @@ function RouteComponent() {
       <section className="mb-4">
         <h2>Input slots</h2>
         {tool.input_slots?.length ? (
-          tool.input_slots.map((slot) => (
-            <div key={slot.id} className="mb-2">
-              <h5 className="mb-0">{slot.name}</h5>
-              <span className="text-gray-600 dark:text-gray-300 text-xs block">Type: {slot.type}</span>
-              {slot.description && <p>{slot.description}</p>}
+          tool.input_slots.map((slot, i) => (
+            <div key={slot.id} className={`mb-2 flex flex-row gap-2 ${i === (tool.input_slots?.length ?? 0) - 1 ? "" : "border-b border-gray-200 dark:border-gray-800 pb-1"}`}>
+              <h6 className="w-30 sm:w-50 shrink-0">
+                <Tag label={slot.type} col="other" />
+                {slot.name}
+              </h6>
+              <div className="shrink text-gray-600 dark:text-gray-300 text-sm">{slot.description || "-"}</div>
             </div>
           ))
         ) : (
@@ -109,7 +111,10 @@ function RawBlock({ header, data, loading }: { header: string; data: any; loadin
     <section className="mb-4 w-full">
       <h2 className="mb-1">{header}</h2>
       <div className="overflow-auto max-h-96 bg-linear-to-b rounded-lg dark:bg-[#0d1117] bg-white p-4">
-        {loading ? <p>Loading…</p> : <JsonView value={data} style={isDark ? githubDarkTheme : githubLightTheme} />}
+        {loading ? 
+        <Loader /> : 
+        <JsonView value={data ?? false} style={isDark ? githubDarkTheme : githubLightTheme} />
+        }
       </div>
     </section>
   )

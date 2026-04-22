@@ -4,6 +4,7 @@ const TAG_CLASS: Record<string, string> = {
   archetype:     "bg-green-100  text-green-800  dark:bg-green-900/40  dark:text-green-300",
   keyword:       "bg-rose-100   text-rose-800   dark:bg-rose-900/40   dark:text-rose-300",
   tags:          "bg-sky-100    text-sky-800    dark:bg-sky-900/40    dark:text-sky-300",
+  other:         "bg-neutral-300   text-neutral-500   dark:bg-neutral-600/60   dark:text-neutral-400",
 };
  
 export function Tag({ label, col }: { label: string; col: keyof typeof TAG_CLASS }) {
