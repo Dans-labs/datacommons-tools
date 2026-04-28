@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
  
 type TooltipPosition = "top" | "bottom" | "left" | "right";
  
@@ -32,14 +32,27 @@ const positionStyles: Record<TooltipPosition, { tooltip: string; arrow: string }
 export default function Tooltip({ children, text, pos = "top", className, fullWidth }: TooltipProps) {
   const [visible, setVisible] = useState(false);
   const styles = positionStyles[pos];
+
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const show = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setVisible(true);
+    timerRef.current = setTimeout(() => setVisible(false), 2000);
+  };
+
+  const hide = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setVisible(false);
+  };
  
   return (
     <span
       className={`relative inline-flex ${fullWidth ? "w-full" : "max-w-full"}`}
-      onMouseEnter={() => setVisible(true)}
-      onMouseLeave={() => setVisible(false)}
-      onFocus={() => setVisible(true)}
-      onBlur={() => setVisible(false)}
+      onMouseEnter={show}
+      onMouseLeave={hide}
+      onFocus={show}
+      onBlur={hide}
     >
       {children}
       <span

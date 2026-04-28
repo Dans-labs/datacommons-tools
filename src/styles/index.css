@@ -6,6 +6,8 @@
   --font-sans: "Quicksand", sans-serif;
   --color-primary: #9333ea;
   --color-secondary: #009fe3; 
+  --animate-fade-slide-in: fade-slide-in 0.5s ease-out forwards;
+  --animate-fade-slide-out: fade-slide-out 0.5s ease-out forwards;
 }
 
 /* Base styles */
@@ -39,5 +41,27 @@
 
   p {
     @apply mb-4 leading-relaxed;
+  }
+}
+
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50px);
   }
 }

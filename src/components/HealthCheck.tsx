@@ -2,14 +2,14 @@ import { useHealth } from '../hooks/useTools';
 import { ExclamationCircleIcon, CheckCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 import Tooltip from './Tooltip';
 
-export function HealthCheck() {
+export function HealthCheck({ expanded }: { expanded: boolean }) {
   const { data, isLoading, isError } = useHealth();
 
   return (
     <Tooltip 
       pos="right" 
       text={isLoading ? "Checking API health..." : isError ? "API is down." : `API status: ${data?.status} (v${data?.version})`} 
-      className="md:hidden"
+      className={`${expanded ? "hidden" : ""} md:hidden`}
     >    
       <div 
         className={`
@@ -24,16 +24,16 @@ export function HealthCheck() {
           isLoading ?
           <span className="flex items-center justify-center gap-1">
             <QuestionMarkCircleIcon className="w-5 h-5" />
-            <span className="hidden md:block">Checking API health…</span>
+            <span className={`${!expanded ? "hidden" : ""} md:block`}>Checking API health…</span>
           </span> : 
           isError ? 
           <span className="flex items-center justify-center gap-1">
             <ExclamationCircleIcon className="w-5 h-5" />
-            <span className="hidden md:block">API is down.</span>
+            <span className={`${!expanded ? "hidden" : ""} md:block`}>API is down.</span>
           </span> :
           <span className="flex items-center justify-center gap-1">
             <CheckCircleIcon className="w-5 h-5" />
-            <span className="hidden md:block">API status: {data?.status} (v{data?.version})</span>
+            <span className={`${!expanded ? "hidden" : ""} md:block`}>API status: {data?.status} (v{data?.version})</span>
           </span>
         }
       </div>

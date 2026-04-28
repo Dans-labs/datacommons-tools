@@ -9,7 +9,7 @@ const themes = [
   { key: "dark",   label: "Dark",   Icon: MoonIcon },
 ];
 
-export default function ThemeSwitcher() {
+export default function ThemeSwitcher({ expanded }: { expanded: boolean }) {
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") ?? "system"
   );
@@ -41,12 +41,12 @@ export default function ThemeSwitcher() {
   return (
     <>
       {/* Mobile: single cycling icon button */}
-      <Tooltip text={`Theme: ${activeLabel}. Click to cycle.`} pos="right" className="md:hidden">
+      <Tooltip text={`Theme: ${activeLabel}. Click to cycle.`} pos="right" className={`${expanded ? "hidden" : ""} md:hidden`}>
         <button
           onClick={cycleTheme}
           aria-label={`Theme: ${activeLabel}. Click to cycle.`}
           className={`
-            md:hidden flex items-center justify-center rounded-lg p-2.5 w-full
+            ${expanded ? "hidden" : ""} md:hidden flex items-center justify-center rounded-lg p-2.5 w-full
             bg-linear-to-r from-gray-100 to-gray-300 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200
             transition-all cursor-pointer
           `}
@@ -59,7 +59,7 @@ export default function ThemeSwitcher() {
       <div
         role="group"
         aria-label="Theme"
-        className="hidden md:inline-flex items-center gap-0.5 rounded-lg p-1 bg-black/20"
+        className={`${!expanded ? "hidden" : "inline-flex"} md:inline-flex items-center gap-0.5 rounded-lg bg-black/20 justify-stretch mb-0.5`}
       >
         {themes.map(({ key, label, Icon }) => (
           <button
@@ -67,7 +67,7 @@ export default function ThemeSwitcher() {
             onClick={() => setTheme(key)}
             aria-pressed={theme === key}
             className={`
-              flex items-center gap-1.5 rounded-lg px-3 py-1 text-xs transition-all cursor-pointer
+              flex items-center gap-1.5 rounded-lg px-3 py-2.5 text-xs transition-all cursor-pointer grow
               ${theme === key
                 ? "bg-white text-gray-900 shadow-sm font-medium"
                 : "text-gray-500 hover:text-gray-200"

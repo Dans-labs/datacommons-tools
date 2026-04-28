@@ -12,7 +12,7 @@ export function LoginButton({ className, hideTextOnSmall }: { className?: string
 
   return (
     <Button className={className} onClick={() => auth.signinRedirect({ state: location.pathname })}>
-      {auth.isLoading ? <Loader noPadding size="5" /> : (
+      {auth.isLoading ? <Loader noPadding size="6" /> : (
         <div className="flex justify-center items-center gap-1">
           <LockClosedIcon className="w-5 h-5 md:mr-2" />
           <span className={hideTextOnSmall ? "hidden md:block" : ""}>Login</span>
@@ -33,7 +33,7 @@ export function LogoutButton({ className, hideTextOnSmall }: { className?: strin
 
   return (
     <Button className={className} onClick={handleLogout}>
-      {auth.isLoading ? <Loader noPadding size="5" /> : (
+      {auth.isLoading ? <Loader noPadding size="6" /> : (
         <div className="flex justify-center items-center gap-1">
           <LockOpenIcon className="w-5 h-5 md:mr-2" />
           <span className={hideTextOnSmall ? "hidden md:block" : ""}>Logout</span>
