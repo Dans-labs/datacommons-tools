@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useDeleteTool, useTool } from '../../../hooks/useTools';
 import ToolForm from '../../../components/ToolForm';
-import { enqueueSnackbar } from 'notistack';
+import { toastManager } from '../../../components/Toast';
 
 export const Route = createFileRoute('/_authenticated/tools/$id/edit')({
   component: RouteComponent,
@@ -19,11 +19,11 @@ function RouteComponent() {
     if (!confirm("Delete this tool? This cannot be undone.")) return;
     deleteMutation.mutate(toolId, {
       onSuccess: () => {
-        enqueueSnackbar('Tool deleted successfully!', { variant: 'success' });
+        toastManager.add({ title: 'Tool deleted successfully!', data: { variant: 'success' } });
         navigate({ to: "/tools/my-tools" });
       },
       onError: (e: any) => {
-        enqueueSnackbar(`Failed to delete tool: ${e?.message ?? "Unknown error"}`, { variant: 'error' });
+        toastManager.add({ title: `Failed to delete tool: ${e?.message ?? "Unknown error"}`, data: { variant: 'error' } });
       },
     });
   };

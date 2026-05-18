@@ -1,6 +1,8 @@
+import { Button as BaseButton } from '@base-ui/react/button';
+
 export function Button({ children, className, ...rest }: React.ComponentPropsWithoutRef<'button'>) {
   return (
-    <button
+    <BaseButton
       {...rest}
       className={`
         px-3 sm:px-4 
@@ -20,13 +22,13 @@ export function Button({ children, className, ...rest }: React.ComponentPropsWit
       `}
     >
       {children}
-    </button>
+    </BaseButton>
   );
 }
 
 export function OutlineButton({ children, className, ...rest }: React.ComponentPropsWithoutRef<'button'>) {
   return (
-    <button
+    <BaseButton
       {...rest}
       className={`
         p-0.5
@@ -44,6 +46,6 @@ export function OutlineButton({ children, className, ...rest }: React.ComponentP
       <div className="bg-white dark:bg-gray-900 px-3.5 py-1.5 rounded-md hover:bg-gray-900/70 transition-colors duration-300">
         {children}
       </div>
-    </button>
+    </BaseButton>
   );
 }
