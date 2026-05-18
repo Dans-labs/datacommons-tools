@@ -1,11 +1,17 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useTool, useToolRawDefinition } from '../../hooks/useTools';
 import { Button, OutlineButton } from '../../components/Button';
-import { TagList } from '../../components/Tags';
+import { Tag, TagList } from '../../components/Tags';
 import JsonView from '@uiw/react-json-view';
 import { githubDarkTheme } from '@uiw/react-json-view/githubDark';
+import { githubLightTheme } from '@uiw/react-json-view/githubLight';
 import { useAuth } from "react-oidc-context";
 import Loader from '../../components/Loader';
+import useIsDark from '../../hooks/useIsDark';
+import Metadata from '../../components/Metadata';
+import Error from '../../components/Error';
+import ReactMarkdown from "react-markdown";
+import he from "he";
 
 export const Route = createFileRoute('/tools/$id')({
   component: RouteComponent,
@@ -20,11 +26,14 @@ function RouteComponent() {
   const { data: rawDef, isLoading: rawLoading } = useToolRawDefinition(toolId);
 
   if (isLoading) return <div className="p-20"><Loader /></div>;
-  if (isError || !tool) return <div className="p-20">Tool not found.</div>;
+  if (isError || !tool) return <Error message="Tool not found." />;
+
+  console.log("Tool data:", tool);
   
   return (
     <div className="max-w-4xl mx-auto p-3 sm:p-6 md:p-8 w-full">
-      <h1>{tool.name}</h1>
+      <Metadata title={he.decode(tool.name)} />
+      <h1 className="overflow-hidden text-ellipsis">{he.decode(tool.name)}</h1>
       <section className="mb-4 flex flex-wrap items-start gap-4">
         <div>
           <span className="text-gray-600 dark:text-gray-300 text-sm block">Version: {tool.version}</span>
@@ -54,8 +63,23 @@ function RouteComponent() {
         </div>
       </section>
  
-      <section className="mb-6">
-        <p>{tool.description}</p>
+      <section className="mb-6 bg-white dark:bg-[#0d1117] p-4 rounded-lg w-full">
+        <ReactMarkdown
+          components={{
+            a: ({ href, children }) => (
+              <a href={href} target="_blank" rel="noopener noreferrer"
+                className="text-indigo-500 hover:underline break-all">
+                {children}
+              </a>
+            ),
+            p: ({ children }) => <p className="mb-1">{children}</p>,
+            h2: ({ children }) => <h2 className="mb-1">{children}</h2>,
+            h3: ({ children }) => <h3 className="mb-1">{children}</h3>,
+            ul: ({ children }) => <ul className="list-disc ml-6 mb-2">{children}</ul>,
+          }}
+        >
+          {tool.description}
+        </ReactMarkdown>
       </section>
  
       <section className="mb-4 max-w-full">
@@ -69,11 +93,13 @@ function RouteComponent() {
       <section className="mb-4">
         <h2>Input slots</h2>
         {tool.input_slots?.length ? (
-          tool.input_slots.map((slot) => (
-            <div key={slot.id} className="mb-2">
-              <h5 className="mb-0">{slot.name}</h5>
-              <span className="text-gray-600 dark:text-gray-300 text-xs block">Type: {slot.type}</span>
-              {slot.description && <p>{slot.description}</p>}
+          tool.input_slots.map((slot, i) => (
+            <div key={slot.id} className={`mb-2 flex flex-row gap-2 ${i === (tool.input_slots?.length ?? 0) - 1 ? "" : "border-b border-gray-200 dark:border-gray-800 pb-1"}`}>
+              <h6 className="w-30 sm:w-60 shrink-0 text-ellipsis overflow-hidden">
+                <Tag label={slot.type} col="other" />
+                <span className={`${slot.name ? "" : "text-gray-300 dark:text-gray-600"}`}>{slot.name || "—"}</span>
+              </h6>
+              <div className={`shrink text-sm ${slot.description ? "text-gray-600 dark:text-gray-300" : "text-gray-300 dark:text-gray-600"}`}>{slot.description || "—"}</div>
             </div>
           ))
         ) : (
@@ -99,11 +125,15 @@ function TagRow({ label, tags, col }: { label: string; tags: string[] | null; co
 }
 
 function RawBlock({ header, data, loading }: { header: string; data: any; loading?: boolean }) {
+  const isDark = useIsDark();
   return (
     <section className="mb-4 w-full">
       <h2 className="mb-1">{header}</h2>
-      <div className="overflow-auto max-h-96 bg-linear-to-b rounded-lg bg-[#0d1117] p-4">
-        {loading ? <p>Loading…</p> : <JsonView value={data} style={githubDarkTheme} />}
+      <div className="overflow-auto max-h-96 bg-linear-to-b rounded-lg dark:bg-[#0d1117] bg-white p-4">
+        {loading ? 
+        <Loader /> : 
+        <JsonView value={data ?? false} style={isDark ? githubDarkTheme : githubLightTheme} />
+        }
       </div>
     </section>
   )

@@ -17,13 +17,13 @@ function RouteComponent() {
   }, [auth.isAuthenticated]);
  
   return (
-    <div className="flex items-center justify-center min-h-100">
+    <div className="flex items-center justify-center min-h-100 p-3 sm:p-6 md:p-8 w-full">
       <div className="text-center">
         <h1>Log in</h1>
         <p>Sign in with your institutional account to manage tools.</p>
         <LoginButton />
         {auth.error && (
-          <p className="form-error">Auth error: {auth.error.message}</p>
+          <p className="p-4 mt-2 bg-red-600 text-white rounded-lg">Authentication error: {auth.error.message}</p>
         )}
       </div>
     </div>

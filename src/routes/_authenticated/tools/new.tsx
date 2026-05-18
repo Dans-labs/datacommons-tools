@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import ToolForm from '../../../components/ToolForm';
+import Metadata from '../../../components/Metadata';
 
 export const Route = createFileRoute('/_authenticated/tools/new')({
   component: RouteComponent,
@@ -8,6 +9,7 @@ export const Route = createFileRoute('/_authenticated/tools/new')({
 function RouteComponent() { 
   return (
     <div className="max-w-4xl mx-auto p-3 sm:p-6 md:p-8 w-full">
+      <Metadata title="Register New Tool" />
       <h1>Register New Tool</h1>
       <p>Fill out the form below to register a new tool in the Tools Registry API.</p>
       <ToolForm />

@@ -7,6 +7,9 @@ import { routeTree } from './routeTree.gen';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import ToastProvider from './components/Toast';
+import { HelmetProvider } from 'react-helmet-async';
+import Loader from './components/Loader';
+import Error from './components/Error';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,7 +25,7 @@ const oidcConfig = {
   client_id: import.meta.env.VITE_OIDC_CLIENT_ID,
   redirect_uri: `${import.meta.env.VITE_OIDC_REDIRECT_URI}`,
   response_type: 'code',
-  scope: 'openid profile email',
+  scope: 'openid profile email voperson_id',
   userStore: new WebStorageStateStore({ store: window.localStorage }),
   automaticSilentRenew: true,
 }
@@ -33,9 +36,15 @@ const router = createRouter({
   // Since we're using React Query, we don't want loader calls to ever be stale
   // This will ensure that the loader is always called when the route is preloaded or visited
   defaultPreloadStaleTime: 0,
-  defaultPendingComponent: () => <div />,
-  defaultNotFoundComponent: () => <div />,
+  defaultPendingComponent: () => <Loader />,
+  defaultNotFoundComponent: () => <Error />,
   scrollRestoration: true,
+  defaultViewTransition: {
+    types: ({ fromLocation, toLocation }) => {
+      if (fromLocation?.pathname === toLocation?.pathname) return false
+      return ['fade']
+    }
+  }
 });
 
 declare module "@tanstack/react-router" {
@@ -47,10 +56,12 @@ declare module "@tanstack/react-router" {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider {...oidcConfig}>
-      <QueryClientProvider client={queryClient}>
-        <ToastProvider />
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <ToastProvider />
+        </QueryClientProvider>
+      </HelmetProvider>
     </AuthProvider>
   </StrictMode>
 );
