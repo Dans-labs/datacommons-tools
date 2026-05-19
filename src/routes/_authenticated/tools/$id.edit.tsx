@@ -19,7 +19,6 @@ function RouteComponent() {
   const deleteMutation = useDeleteTool();
 
   const handleDelete = async () => {
-    if (!confirm("Delete this tool? This cannot be undone.")) return;
     deleteMutation.mutate(toolId, {
       onSuccess: () => {
         toastManager.add({ 

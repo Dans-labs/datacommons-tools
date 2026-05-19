@@ -8,6 +8,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { toastManager } from "./Toast";
 import { Form } from "@base-ui/react/form";
 import { Field } from "@base-ui/react/field";
+import { AlertDialog } from '@base-ui/react/alert-dialog';
 
 const BLANK: ToolCreate = {
   uri: "",
@@ -215,14 +216,47 @@ export default function ToolForm({
             : "Register Tool"}
         </Button>
         {tool && handleDelete && (
-          <Button
-            type="button"
-            disabled={isPending}
-            className="ml-4 bg-linear-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500"
-            onClick={handleDelete}
-          >
-            Delete Tool
-          </Button>
+          <AlertDialog.Root>
+            <AlertDialog.Trigger data-color="red">
+              <Button
+                type="button"
+                disabled={isPending}
+                className="ml-4 bg-linear-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500"
+              >
+                Delete Tool
+              </Button>
+            </AlertDialog.Trigger>
+            <AlertDialog.Portal className="">
+              <AlertDialog.Backdrop className="fixed bg-white dark:bg-black top-0 bottom-0 left-0 right-0 opacity-80 data-starting-style:opacity-0 data-ending-style:opacity-80 transition-opacity" />
+              <AlertDialog.Popup className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-lg max-w-sm fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2    
+                data-starting-style:opacity-0 data-starting-style:-translate-x-1/2 data-starting-style:-translate-y-1/2 data-starting-style:scale-90
+                data-ending-style:opacity-0 data-ending-style:-translate-x-1/2 data-ending-style:-translate-y-1/2 data-ending-style:scale-90 transition-all">
+                <AlertDialog.Title>Delete tool?</AlertDialog.Title>
+                <AlertDialog.Description>
+                  You can't undo this action.
+                </AlertDialog.Description>
+                <div>
+                  <AlertDialog.Close>
+                    <Button
+                      type="button"
+                      className="ml-4 bg-linear-to-r from-gray-500 to-gray-600 hover:from-gray-400 hover:to-gray-500"
+                    >
+                      Cancel
+                    </Button>
+                  </AlertDialog.Close>
+                  <AlertDialog.Close data-color="red" onClick={handleDelete}>
+                    <Button
+                      type="button"
+                      className="ml-4 bg-linear-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500"
+                    >
+                      Delete Tool
+                    </Button>
+                  </AlertDialog.Close>
+                </div>
+              </AlertDialog.Popup>
+            </AlertDialog.Portal>
+          </AlertDialog.Root>
+          
         )}
       </div>
     </Form>
