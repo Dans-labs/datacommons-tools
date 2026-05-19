@@ -22,11 +22,19 @@ function RouteComponent() {
     if (!confirm("Delete this tool? This cannot be undone.")) return;
     deleteMutation.mutate(toolId, {
       onSuccess: () => {
-        toastManager.add({ title: 'Tool deleted successfully!', data: { variant: 'success' } });
+        toastManager.add({ 
+          title: 'Success', 
+          description: 'Tool deleted successfully!', 
+          data: { variant: 'success' } 
+        });
         navigate({ to: "/tools/my-tools" });
       },
       onError: (e: any) => {
-        toastManager.add({ title: `Failed to delete tool: ${e?.message ?? "Unknown error"}`, data: { variant: 'error' } });
+        toastManager.add({ 
+          title: 'Error', 
+          description: `Failed to delete tool: ${e?.message ?? "Unknown error"}`, 
+          data: { variant: 'error' } 
+        });
       },
     });
   };

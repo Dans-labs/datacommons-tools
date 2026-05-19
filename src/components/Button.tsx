@@ -43,7 +43,7 @@ export function OutlineButton({ children, className, ...rest }: React.ComponentP
         ${className}
       `}
     >
-      <div className="bg-white dark:bg-gray-900 px-3.5 py-1.5 rounded-md hover:bg-gray-900/70 transition-colors duration-300">
+      <div className="bg-white dark:bg-gray-900 px-3.5 py-1.5 rounded-md hover:bg-gray-100 hover:dark:bg-gray-900/70 transition-colors duration-300">
         {children}
       </div>
     </BaseButton>

@@ -4,6 +4,7 @@ import { ComputerDesktopIcon, SunIcon, MoonIcon } from "@heroicons/react/24/outl
 import { ToggleGroup } from "@base-ui/react/toggle-group";
 import { Toggle } from "@base-ui/react/toggle";
 import Tooltip from "./Tooltip";
+import { Button } from "@base-ui/react"
 
 const themes = [
   { key: "system", label: "System", Icon: ComputerDesktopIcon },
@@ -43,7 +44,7 @@ export default function ThemeSwitcher({ expanded }: { expanded: boolean }) {
     <>
       {/* Mobile: single cycling icon button */}
       <Tooltip text={`Theme: ${activeLabel}. Click to cycle.`} pos="right" className={`${expanded ? "hidden" : ""} md:hidden`}>
-        <button
+        <Button
           onClick={cycleTheme}
           aria-label={`Theme: ${activeLabel}. Click to cycle.`}
           className={`
@@ -53,7 +54,7 @@ export default function ThemeSwitcher({ expanded }: { expanded: boolean }) {
           `}
         >
           <ActiveIcon className="h-4 w-4" />
-        </button>
+        </Button>
       </Tooltip>
 
       {/* Desktop: segmented ToggleGroup */}
