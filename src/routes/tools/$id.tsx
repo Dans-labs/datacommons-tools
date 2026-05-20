@@ -59,6 +59,7 @@ function RouteComponent() {
             auth.user?.profile?.sub === tool.created_by &&
             <OutlineButton 
               className="mr-2"
+              nativeButton={false}
               render={
                 <Link to={`/tools/$id/edit`} params={{ id: String(toolId) }} />
               }

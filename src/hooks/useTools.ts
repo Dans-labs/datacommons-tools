@@ -95,7 +95,11 @@ export function useCreateTool() {
 export function useUpdateTool(id: number | undefined) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (body: ToolUpdate) => id ? updateTool(id, body) : Promise.reject("Invalid ID"),
+    mutationFn: (body: ToolUpdate) => {
+      // strip body of created_at, updated_at, created_by, and id fields if they exist since they are not accepted by the update endpoint
+      const { created_at, updated_at, created_by, id, ...updatedBody } = body;
+      return id ? updateTool(id, updatedBody) : Promise.reject("Invalid ID")
+    },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: id ? toolKeys.detail(id) : [] });
       qc.invalidateQueries({ queryKey: toolKeys.lists() });

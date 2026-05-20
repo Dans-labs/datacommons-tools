@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Git
+.git
+.gitignore
+
+# Env files - pass secrets via --build-arg instead
+.env
+.env.local
+.env.development
+.env.development.local
+.env.production
+.env.production.local
+.env.test
+.env.test.local
+
+# Editor / OS
+.DS_Store
+.vscode
+.idea
+*.swp
+*.swo
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Docker
+Dockerfile
+.dockerignore

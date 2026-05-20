@@ -61,6 +61,9 @@ export interface ToolCreate {
 
 export interface ToolUpdate {
   id?: number;
+  created_at?: string;
+  updated_at?: string;
+  created_by?: string;
   types: string[]; // required per schema
   uri?: string | null;
   location?: string | null;

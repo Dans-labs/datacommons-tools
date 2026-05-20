@@ -1,6 +1,7 @@
 import { Button as BaseButton } from '@base-ui/react/button';
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
+  nativeButton?: boolean; // if true, render the button as a native button element instead of the default BaseButton
   render?: React.ReactElement;
 }
 
