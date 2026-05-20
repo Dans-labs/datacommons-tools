@@ -131,9 +131,7 @@ function TagRow({ label, tags, col }: { label: string; tags: string[] | null; co
 }
 
 function RawBlock({ header, data, loading }: { header: string; data: any; loading?: boolean }) {
-  console.log(githubDarkTheme)
   const isDark = useIsDark();
-  console.log(data)
   return (
     <section className="mb-4 w-full">
       <h2 className="mb-1">{header}</h2>
