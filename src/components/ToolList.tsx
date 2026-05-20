@@ -63,7 +63,7 @@ export default function ToolList({
     <div className="h-screen overflow-hidden">
       <div className="flex items-baseline gap-2.5 px-6 py-4 border-b border-gray-100 dark:border-gray-800" ref={headerRef}>
         <h1>{title}</h1>
-        <span className="text-sm text-gray-400">{isLoading ? "Fetching..." : `${tools?.length ?? 0} results`}</span>
+        <span className="text-sm text-gray-600 dark:text-gray-400">{isLoading ? "Fetching..." : `${tools?.length ?? 0} results`}</span>
       </div>
 
       {/* horizontal scroll wrapper — filter bar + body move together */}
@@ -141,7 +141,7 @@ function ToolRow({ tool }: { tool: ToolOut }) {
     >
       <div className="flex-[2_0_180px] pr-4 min-w-0">
         <p className="font-medium text-sm text-gray-900 dark:text-gray-100 mb-1">{tool.name}</p>
-        <p className="text-xs text-gray-400 font-mono mt-0.5">{tool.version}</p>
+        <p className="text-xs text-gray-600 dark:text-gray-400 font-mono mt-0.5">{tool.version}</p>
       </div>
       <div className="flex-[1.5_0_140px] pr-4 min-w-0">
         <TagList tags={tool.input_file_formats} col="input_format" />

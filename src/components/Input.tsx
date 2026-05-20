@@ -41,8 +41,8 @@ function floatingLabelClass(floated: boolean, focused: boolean) {
     ${focused
       ? "text-indigo-500"
       : floated
-        ? "text-gray-500 dark:text-gray-400"
-        : "text-gray-400"}
+        ? "text-gray-600 dark:text-gray-400"
+        : "text-gray-600 dark:text-gray-400"}
   `;
 }
 
@@ -333,6 +333,7 @@ export function TagInput({ label, value: chips, onChange, required }: TagInputPr
           onFocus={() => setFocused(true)}
           onBlur={() => { setFocused(false); if (inputValue.trim()) add(inputValue); }}
           onKeyDown={handleKeyDown}
+          aria-label={label}
         />
       </div>
  

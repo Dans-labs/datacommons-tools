@@ -12,6 +12,7 @@ import Metadata from '../../components/Metadata';
 import Error from '../../components/Error';
 import ReactMarkdown from "react-markdown";
 import he from "he";
+import { ScrollArea } from '@base-ui/react/scroll-area';
 
 export const Route = createFileRoute('/tools/$id')({
   component: RouteComponent,
@@ -27,8 +28,6 @@ function RouteComponent() {
 
   if (isLoading) return <div className="p-20"><Loader /></div>;
   if (isError || !tool) return <Error message="Tool not found." />;
-
-  console.log("Tool data:", tool);
   
   return (
     <div className="max-w-4xl mx-auto p-3 sm:p-6 md:p-8 w-full">
@@ -44,21 +43,28 @@ function RouteComponent() {
         </div>
         <div className="flex gap-2 ml-auto">
           {tool.location && (
-            <Button className="">
+            <Button render={
               <a
                 href={tool.location}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-ghost small"
-              >
-                Open location
-              </a>
+              />
+            }>
+              Open location
             </Button>
           )}
           {
             auth.isAuthenticated && 
             auth.user?.profile?.sub === tool.created_by &&
-            <OutlineButton className="mr-2"><Link to={`/tools/$id/edit`} params={{ id: String(toolId) }}>Edit</Link></OutlineButton>
+            <OutlineButton 
+              className="mr-2"
+              render={
+                <Link to={`/tools/$id/edit`} params={{ id: String(toolId) }} />
+              }
+            >
+              Edit
+            </OutlineButton>
           }
         </div>
       </section>
@@ -95,10 +101,10 @@ function RouteComponent() {
         {tool.input_slots?.length ? (
           tool.input_slots.map((slot, i) => (
             <div key={slot.id} className={`mb-2 flex flex-row gap-2 ${i === (tool.input_slots?.length ?? 0) - 1 ? "" : "border-b border-gray-200 dark:border-gray-800 pb-1"}`}>
-              <h6 className="w-30 sm:w-60 shrink-0 text-ellipsis overflow-hidden">
+              <div className="w-30 sm:w-60 shrink-0 text-ellipsis overflow-hidden text-sm">
                 <Tag label={slot.type} col="other" />
                 <span className={`${slot.name ? "" : "text-gray-300 dark:text-gray-600"}`}>{slot.name || "—"}</span>
-              </h6>
+              </div>
               <div className={`shrink text-sm ${slot.description ? "text-gray-600 dark:text-gray-300" : "text-gray-300 dark:text-gray-600"}`}>{slot.description || "—"}</div>
             </div>
           ))
@@ -117,24 +123,42 @@ function RouteComponent() {
 
 function TagRow({ label, tags, col }: { label: string; tags: string[] | null; col: string }) {
   return (
-    <div className="flex gap-2 mb-2 items-baseline">
-      <h6 className="mb-0">{label}</h6>
-      <TagList tags={tags} col={col} className="grow" />
-    </div>
+    <dl className="flex gap-2 mb-2 items-baseline">
+      <dt className="mb-0 text-sm">{label}</dt>
+      <dd><TagList tags={tags} col={col} className="grow" /></dd>
+    </dl>
   );
 }
 
 function RawBlock({ header, data, loading }: { header: string; data: any; loading?: boolean }) {
+  console.log(githubDarkTheme)
   const isDark = useIsDark();
+  console.log(data)
   return (
     <section className="mb-4 w-full">
       <h2 className="mb-1">{header}</h2>
-      <div className="overflow-auto max-h-96 bg-linear-to-b rounded-lg dark:bg-[#0d1117] bg-white p-4">
-        {loading ? 
-        <Loader /> : 
-        <JsonView value={data ?? false} style={isDark ? githubDarkTheme : githubLightTheme} />
-        }
-      </div>
+      <ScrollArea.Root className={`${!data || Object.keys(data).length === 0 ? "h-9" : "h-80"} rounded-lg dark:bg-[#0d1117] bg-white`}>
+        <ScrollArea.Viewport className="h-full">
+          <ScrollArea.Content className="p-2">
+            {
+              loading ? 
+              <Loader /> : 
+              <JsonView 
+                value={data ?? false} 
+                style={
+                  // theme doesnt compy with WCAG, so adjust colours.
+                  isDark ? 
+                  {...githubDarkTheme, "--w-rjv-info-color": "#b7b7b7"} as React.CSSProperties : 
+                  {...githubLightTheme, "--w-rjv-info-color": "#6b6b6b"} as React.CSSProperties 
+                }
+              />
+            }
+          </ScrollArea.Content>
+        </ScrollArea.Viewport>
+        <ScrollArea.Scrollbar className="w-2 rounded-r-lg bg-gray-200 dark:bg-gray-800">
+          <ScrollArea.Thumb className="w-full rounded-lg bg-gray-400 dark:bg-gray-600" />
+        </ScrollArea.Scrollbar>
+      </ScrollArea.Root>
     </section>
   )
 }

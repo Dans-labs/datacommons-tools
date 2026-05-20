@@ -67,6 +67,8 @@ export default function ThemeSwitcher({ expanded }: { expanded: boolean }) {
         }}
         aria-label="Theme"
         className={`${!expanded ? "hidden" : "inline-flex"} md:inline-flex items-center gap-0.5 rounded-lg bg-black/20 justify-stretch mb-0.5`}
+        // bugfix for base-ui
+        aria-orientation={undefined}
       >
         {themes.map(({ key, label, Icon }) => (
           <Toggle
@@ -78,10 +80,10 @@ export default function ThemeSwitcher({ expanded }: { expanded: boolean }) {
               transition-all cursor-pointer
               data-[pressed]:bg-white data-[pressed]:text-gray-900
               data-[pressed]:shadow-sm data-[pressed]:font-medium
-              text-gray-500 hover:text-gray-800 dark:hover:text-gray-200
+              hover:text-gray-200 
               ${theme === key
                 ? "bg-white text-gray-900 shadow-sm font-medium"
-                : "text-gray-500 hover:text-gray-200"
+                : "text-gray-400"
               }
             `}
           >

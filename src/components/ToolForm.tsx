@@ -217,14 +217,17 @@ export default function ToolForm({
         </Button>
         {tool && handleDelete && (
           <AlertDialog.Root>
-            <AlertDialog.Trigger data-color="red">
-              <Button
-                type="button"
-                disabled={isPending}
-                className="ml-4 bg-linear-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500"
-              >
-                Delete Tool
-              </Button>
+            <AlertDialog.Trigger 
+              data-color="red"
+              render={
+                <Button
+                  type="button"
+                  disabled={isPending}
+                  className="ml-4 bg-linear-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500"
+                />
+              }
+            >
+              Delete Tool
             </AlertDialog.Trigger>
             <AlertDialog.Portal className="">
               <AlertDialog.Backdrop className="fixed bg-white dark:bg-black top-0 bottom-0 left-0 right-0 opacity-80 data-starting-style:opacity-0 data-ending-style:opacity-80 transition-opacity" />
@@ -265,8 +268,8 @@ export default function ToolForm({
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h5 className="text-sm font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-4 mt-6">
+    <h2 className="text-sm font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-4 mt-6">
       {children}
-    </h5>
+    </h2>
   );
 }

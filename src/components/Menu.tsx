@@ -14,46 +14,46 @@ import { NavigationMenu } from "@base-ui/react/navigation-menu";
 import emblemWhite from "../assets/datacommons-emblem-white.svg"
 import { cloneElement, useState, type ReactElement } from "react";
 import Tooltip from "./Tooltip";
+import { Separator } from '@base-ui/react/separator';
 
 export default function Menu() {
   const auth = useAuth();
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className={`bg-indigo-950 text-white ${expanded ? "w-68 px-2" : "w-12"} md:w-70 fixed top-0 left-0 bottom-0 h-screen z-60 transition-all`}>
+    <div className={`bg-indigo-950 text-white ${expanded ? "w-68" : "w-12"} md:w-70 fixed top-0 left-0 bottom-0 h-screen z-60 transition-all`}>
       <div className="flex flex-col gap-4 h-full justify-between">
         <div className="flex flex-col">
-          <div className="w-full px-2 py-4 md:px-8">
+
+          <header className={`w-full ${expanded ? "px-4" : "px-2"} py-4 md:px-6`}>
             <Link to="/">
-              <img src={logoWhite} className={`${!expanded ? "hidden" : " h-8"} md:block`} alt="Logo" />
-              <img src={emblemWhite} className={`${expanded ? "hidden" : ""} md:hidden h-8`} alt="Logo" />
+              <img src={logoWhite} className={`${!expanded ? "hidden" : " w-full"} md:block`} alt="Logo" />
+              <img src={emblemWhite} className={`${expanded ? "hidden" : ""} md:hidden w-full max-h-10`} alt="Logo" />
             </Link>
-          </div>
+          </header>
 
           <NavigationMenu.Root orientation="vertical">
-            <NavigationMenu.List className="flex flex-col gap-1 p-1 sm:p-4 mb-2 sm:m-0">
+            <NavigationMenu.List className={`flex flex-col gap-1 ${expanded ? "p-2" : "p-1"} sm:p-4 mb-2`}>
               <MenuItem to="/" text="Explore tools" icon={<DocumentMagnifyingGlassIcon />} expanded={expanded} />
             </NavigationMenu.List>
-          </NavigationMenu.Root>
-
-          <div className="border-t border-white/20 p-1 pt-3 sm:p-4">
+            <Separator className="border-t border-white/20 mb-2" />
             {auth.isAuthenticated && (
-              <NavigationMenu.Root orientation="vertical">
-                <NavigationMenu.List className="flex flex-col gap-1 mb-4">
-                  <MenuItem to="/tools/my-tools" text="My tools" icon={<WrenchIcon />} expanded={expanded}/>
-                  <MenuItem to="/tools/new" text="Create tool" icon={<PlusCircleIcon />} expanded={expanded} />
-                </NavigationMenu.List>
-              </NavigationMenu.Root>
+              <NavigationMenu.List className={`flex flex-col gap-1 ${expanded ? "p-2" : "p-1"} sm:p-4 mb-4`}>
+                <MenuItem to="/tools/my-tools" text="My tools" icon={<WrenchIcon />} expanded={expanded}/>
+                <MenuItem to="/tools/new" text="Create tool" icon={<PlusCircleIcon />} expanded={expanded} />
+              </NavigationMenu.List>
             )}
-            {auth.isAuthenticated ? (
-              <LogoutButton className="w-full"  hideTextOnSmall={!expanded} />
-            ) : (
-              <LoginButton className="w-full"  hideTextOnSmall={!expanded} />
-            )}
-          </div>
+            </NavigationMenu.Root>
+            <div className={`${expanded ? "px-2" : "px-1"} sm:px-4`}>
+              {auth.isAuthenticated ? (
+                <LogoutButton className="w-full"  hideTextOnSmall={!expanded} />
+              ) : (
+                <LoginButton className="w-full"  hideTextOnSmall={!expanded} />
+              )}
+            </div>
         </div>
 
-        <div className="m-1 sm:m-4 flex flex-col gap-1 sm:gap-2">
+        <footer className={`${expanded ? "p-2" : "p-1"} sm:p-4 flex flex-col gap-2 sm:gap-2`}>
           <ThemeSwitcher expanded={expanded} />
           <HealthCheck expanded={expanded} />
           <div className="md:hidden cursor-pointer" onClick={() => setExpanded(!expanded)}>
@@ -64,7 +64,7 @@ export default function Menu() {
               </div>
             </Tooltip>
           </div>
-        </div>
+        </footer>
       </div>
     </div>
   );

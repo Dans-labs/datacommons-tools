@@ -1,9 +1,14 @@
 import { Button as BaseButton } from '@base-ui/react/button';
 
-export function Button({ children, className, ...rest }: React.ComponentPropsWithoutRef<'button'>) {
+interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
+  render?: React.ReactElement;
+}
+
+export function Button({ children, className, render, ...rest }: ButtonProps) {
   return (
     <BaseButton
       {...rest}
+      render={render}
       className={`
         px-3 md:px-4 
         py-2 
@@ -26,10 +31,11 @@ export function Button({ children, className, ...rest }: React.ComponentPropsWit
   );
 }
 
-export function OutlineButton({ children, className, ...rest }: React.ComponentPropsWithoutRef<'button'>) {
+export function OutlineButton({ children, className, render, ...rest }: ButtonProps) {
   return (
     <BaseButton
       {...rest}
+      render={render}
       className={`
         p-0.5
         rounded-lg
@@ -43,9 +49,9 @@ export function OutlineButton({ children, className, ...rest }: React.ComponentP
         ${className}
       `}
     >
-      <div className="bg-white dark:bg-gray-900 px-3.5 py-1.5 rounded-md hover:bg-gray-100 hover:dark:bg-gray-900/70 transition-colors duration-300">
+      <span className="block bg-white dark:bg-gray-900 px-3.5 py-1.5 rounded-md hover:bg-gray-100 hover:dark:bg-gray-900/70 transition-colors duration-300">
         {children}
-      </div>
+      </span>
     </BaseButton>
   );
 }
