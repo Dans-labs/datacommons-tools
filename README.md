@@ -60,4 +60,4 @@ docker run -p 8080:80 tool-registry-ui
 
 The app will be available at http://localhost:8080.
 
-> **Note:** env vars are baked into the static bundle at build time. Do not commit `.env.production` — pass secrets via `--build-arg` only.
+> **Note:** env vars are baked into the static bundle at build time. Do not commit `.env.production`, pass secrets via `--build-arg` only.
