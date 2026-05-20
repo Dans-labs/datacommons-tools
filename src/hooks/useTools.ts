@@ -84,7 +84,6 @@ export function useCreateTool() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (body: ToolCreate) => {
-      console.log("Creating tool with body:", body);
       return createTool(body);
     },
     onSuccess: () => {
