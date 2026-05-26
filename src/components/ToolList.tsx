@@ -5,6 +5,7 @@ import Loader from "./Loader";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { TagList } from "./Tags";
 import { useRef, useEffect } from "react";
+import { Input } from "@base-ui/react/input";
 
 interface ToolGridProps {
   title?: string;
@@ -18,7 +19,7 @@ interface ToolGridProps {
 const COLS = [
   { key: "name",          label: "Name",           filterKey: "name" as const,          placeholder: "Search name…",         grow: "flex-[2_0_180px]" },
   { key: "input_format",  label: "Input formats",  filterKey: "input_format" as const,  placeholder: "e.g. fasta",           grow: "flex-[1.5_0_140px]" },
-  { key: "output_format", label: "Output formats", filterKey: "output_format" as const, placeholder: "e.g. cram",            grow: "flex-[1.5_0_140px]" },
+  // { key: "output_format", label: "Output formats", filterKey: "output_format" as const, placeholder: "e.g. cram",            grow: "flex-[1.5_0_140px]" },
   { key: "archetype",     label: "Archetype",      filterKey: "archetype" as const,     placeholder: "e.g. galaxy_workflow", grow: "flex-[2_0_160px]" },
 ] as const;
 
@@ -35,7 +36,7 @@ export default function ToolList({
  
   const debounced = useDebouncedCallback(
     (key: keyof ToolsSearchParams, value: string) => handleFilter(key, value),
-    300
+    1000
   );
  
   const rowVirtualizer = useVirtualizer({
@@ -82,7 +83,7 @@ export default function ToolList({
                   <p className="text-xs font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-1.5">
                     {col.label}
                   </p>
-                  <input
+                  <Input
                     key={col.filterKey + (searchParams?.[col.filterKey] ?? '')}
                     type="text"
                     defaultValue={searchParams?.[col.filterKey] ?? ''}
@@ -146,9 +147,9 @@ function ToolRow({ tool }: { tool: ToolOut }) {
       <div className="flex-[1.5_0_140px] pr-4 min-w-0">
         <TagList tags={tool.input_file_formats} col="input_format" />
       </div>
-      <div className="flex-[1.5_0_140px] pr-4 min-w-0">
+      {/* <div className="flex-[1.5_0_140px] pr-4 min-w-0">
         <TagList tags={tool.output_file_formats} col="output_format" />
-      </div>
+      </div> */}
       <div className="flex-[2_0_160px] pr-4 min-w-0">
         <TagList tags={tool.tags} col="archetype" />
       </div>
