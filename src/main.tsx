@@ -23,7 +23,7 @@ const queryClient = new QueryClient({
 const oidcConfig = {
   authority: import.meta.env.VITE_OIDC_AUTHORITY,
   client_id: import.meta.env.VITE_OIDC_CLIENT_ID,
-  redirect_uri: `${import.meta.env.VITE_OIDC_REDIRECT_URI}`,
+  redirect_uri: `${window.location.origin}/signin-callback`,
   response_type: 'code',
   scope: 'openid profile email voperson_id',
   userStore: new WebStorageStateStore({ store: window.localStorage }),
