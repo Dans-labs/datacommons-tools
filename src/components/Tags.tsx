@@ -1,7 +1,7 @@
 const TAG_CLASS: Record<string, string> = {
-  input_format:  "bg-amber-100  text-amber-800  dark:bg-amber-900/40  dark:text-amber-300",
-  output_format: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300",
-  archetype:     "bg-green-100  text-green-800  dark:bg-green-900/40  dark:text-green-300",
+  input_file_formats:  "bg-amber-100  text-amber-800  dark:bg-amber-900/40  dark:text-amber-300",
+  output_file_formats: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300",
+  types:          "bg-green-100  text-green-800  dark:bg-green-900/40  dark:text-green-300",
   keyword:       "bg-rose-100   text-rose-800   dark:bg-rose-900/40   dark:text-rose-300",
   tags:          "bg-sky-100    text-sky-800    dark:bg-sky-900/40    dark:text-sky-300",
   other:         "bg-neutral-300   text-neutral-600   dark:bg-neutral-600/60   dark:text-neutral-400",

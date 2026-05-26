@@ -90,11 +90,11 @@ function RouteComponent() {
       </section>
  
       <section className="mb-4 max-w-full">
-        {tool.types && <TagRow label="Types" tags={tool.types} col="archetype" />}
+        {tool.types && <TagRow label="Types" tags={tool.types} col="types" />}
         {tool.tags && <TagRow label="Tags" tags={tool.tags} col="tags" />}
         {tool.keywords && <TagRow label="Keywords" tags={tool.keywords} col="keyword" />}
-        {tool.input_file_formats && <TagRow label="Input File Formats" tags={tool.input_file_formats} col="input_format" />}
-        {tool.output_file_formats && <TagRow label="Output File Formats" tags={tool.output_file_formats} col="output_format" />}
+        {tool.input_file_formats && <TagRow label="Input file formats" tags={tool.input_file_formats} col="input_file_formats" />}
+        {tool.output_file_formats && <TagRow label="Output file formats" tags={tool.output_file_formats} col="output_file_formats" />}
       </section>
 
       <section className="mb-4">
@@ -125,7 +125,7 @@ function RouteComponent() {
 function TagRow({ label, tags, col }: { label: string; tags: string[] | null; col: string }) {
   return (
     <dl className="flex gap-2 mb-2 items-baseline">
-      <dt className="mb-0 text-sm">{label}</dt>
+      <dt className="mb-0 text-sm text-nowrap">{label}</dt>
       <dd><TagList tags={tags} col={col} className="grow" /></dd>
     </dl>
   );

@@ -17,10 +17,33 @@ interface ToolGridProps {
 }
 
 const COLS = [
-  { key: "name",          label: "Name",           filterKey: "name" as const,          placeholder: "Search name…",         grow: "flex-[2_0_180px]" },
-  { key: "input_format",  label: "Input formats",  filterKey: "input_format" as const,  placeholder: "e.g. fasta",           grow: "flex-[1.5_0_140px]" },
-  // { key: "output_format", label: "Output formats", filterKey: "output_format" as const, placeholder: "e.g. cram",            grow: "flex-[1.5_0_140px]" },
-  { key: "archetype",     label: "Archetype",      filterKey: "archetype" as const,     placeholder: "e.g. galaxy_workflow", grow: "flex-[2_0_160px]" },
+  { 
+    key: "name",
+    label: "Name",
+    filterKey: "name" as const,
+    placeholder: "Search name…",
+    grow: "flex-[2_0_180px]" 
+  },
+  { 
+    key: "description",
+    label: "Description",
+    filterKey: false,
+    grow: "flex-[2_0_180px]" 
+  },
+  { 
+    key: "input_file_formats",
+    label: "Input formats",
+    filterKey: "input_file_formats" as const,
+    placeholder: "e.g. fasta",
+    grow: "flex-[1.5_0_140px]" 
+  },
+  { 
+    key: "tags",
+    label: "Tags",
+    filterKey: "tags" as const,
+    placeholder: "e.g. cram",
+    grow: "flex-[1.5_0_140px]" 
+  },
 ] as const;
 
 export default function ToolList({
@@ -83,14 +106,16 @@ export default function ToolList({
                   <p className="text-xs font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-1.5">
                     {col.label}
                   </p>
-                  <Input
-                    key={col.filterKey + (searchParams?.[col.filterKey] ?? '')}
-                    type="text"
-                    defaultValue={searchParams?.[col.filterKey] ?? ''}
-                    placeholder={col.placeholder}
-                    onChange={(e) => debounced(col.filterKey, e.target.value)}
-                    className="w-full bg-transparent border-0 border-b border-gray-200 dark:border-gray-700 rounded-none px-0 py-1 text-xs font-mono text-gray-700 dark:text-gray-300 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none focus:border-indigo-400 dark:focus:border-indigo-500 transition-colors"
-                  />
+                  {col.filterKey && (
+                    <Input
+                      key={col.filterKey + (searchParams?.[col.filterKey] ?? '')}
+                      type="text"
+                      defaultValue={searchParams?.[col.filterKey] ?? ''}
+                      placeholder={col.placeholder}
+                      onChange={(e) => debounced(col.filterKey, e.target.value)}
+                      className="w-full bg-transparent border-0 border-b border-gray-200 dark:border-gray-700 rounded-none px-0 py-1 text-xs font-mono text-gray-700 dark:text-gray-300 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:outline-none focus:border-indigo-400 dark:focus:border-indigo-500 transition-colors"
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -112,9 +137,9 @@ export default function ToolList({
             )}
             {!isLoading && !isError && (tools?.length ?? 0) > 0 && (
               <div style={{ height: rowVirtualizer.getTotalSize(), position: "relative" }}>
-                {rowVirtualizer.getVirtualItems().map((vItem) => (
+                {rowVirtualizer.getVirtualItems().map((vItem, i) => (
                   <div
-                    key={vItem.key}
+                    key={`${vItem.key}-${i}`}
                     ref={rowVirtualizer.measureElement}
                     data-index={vItem.index}
                     style={{ position: "absolute", top: 0, transform: `translateY(${vItem.start}px)`, width: "100%" }}
@@ -140,19 +165,28 @@ function ToolRow({ tool }: { tool: ToolOut }) {
       className="flex items-start border-b border-gray-100 dark:border-gray-800 px-6 py-2.5 hover:bg-white dark:hover:bg-gray-950 transition-colors"
       onClick={() => sessionStorage.setItem("scrollToToolId", String(tool.id))}
     >
-      <div className="flex-[2_0_180px] pr-4 min-w-0">
-        <p className="font-medium text-sm text-gray-900 dark:text-gray-100 mb-1">{tool.name}</p>
-        <p className="text-xs text-gray-600 dark:text-gray-400 font-mono mt-0.5">{tool.version}</p>
-      </div>
-      <div className="flex-[1.5_0_140px] pr-4 min-w-0">
-        <TagList tags={tool.input_file_formats} col="input_format" />
-      </div>
-      {/* <div className="flex-[1.5_0_140px] pr-4 min-w-0">
-        <TagList tags={tool.output_file_formats} col="output_format" />
-      </div> */}
-      <div className="flex-[2_0_160px] pr-4 min-w-0">
-        <TagList tags={tool.tags} col="archetype" />
-      </div>
+      {COLS.map((col) => {
+        if (col.key === "name") {
+          return (
+            <div key={col.key} className={`${col.grow} pr-4 min-w-0`}>
+              <p className="font-medium text-sm text-gray-900 dark:text-gray-100 mb-1">{tool.name}</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400 font-mono mt-0.5">{tool.version}</p>
+            </div>
+          );
+        }
+        if (col.key === "description") {
+          return (
+            <div key={col.key} className={`${col.grow} pr-4 min-w-0`}>
+              <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-3">{tool.description}</p>
+            </div>
+          );
+        }
+        return (
+          <div className={`${col.grow} pr-4 min-w-0`} key={col.key}>
+            <TagList tags={tool[col.key]} col={col.key} />
+          </div>
+        )
+      })}
     </Link>
   );
 }
