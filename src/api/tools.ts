@@ -1,4 +1,4 @@
-import { apiFetch } from "./client";
+import { apiFetch, apiFetchWithHeaders } from "./client";
 import type {
   ToolOut,
   ToolOutExt,
@@ -22,11 +22,15 @@ export const healthCheck = () =>
 export const authCheck = () =>
   apiFetch("/api/v1/auth");
 
-export const searchTools = (params?: ToolsSearchParams) =>
-  apiFetch<ToolOut[]>(`/api/v1/tools/${qs(params as Record<string, string | undefined>)}`, {}, false);
+export const searchTools = (params?: ToolsSearchParams & { offset?: number, limit?: number }) =>
+  apiFetchWithHeaders<ToolOut[]>(
+    `/api/v1/tools/${qs(params as Record<string, string | undefined>)}`,
+    {},
+    false
+  );
 
-export const searchMyTools = (params?: ToolsSearchParams) =>
-  apiFetch<ToolOut[]>(`/api/v1/tools/${qs(params as Record<string, string | undefined>)}`, {}, true);
+export const searchMyTools = (params?: ToolsSearchParams & { offset?: number, limit?: number }) =>
+  apiFetchWithHeaders<ToolOut[]>(`/api/v1/tools/${qs(params as Record<string, string | undefined>)}`, {}, true);
 
 export const createTool = (body: ToolCreate) =>
   apiFetch("/api/v1/tools/", { method: "POST", body: JSON.stringify(body) });

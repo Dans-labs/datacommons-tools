@@ -3,6 +3,7 @@ import {
   useMutation,
   useQueryClient,
   type UseQueryOptions,
+  useInfiniteQuery,
 } from "@tanstack/react-query";
 import {
   searchTools,
@@ -16,7 +17,6 @@ import {
 } from "../api/tools";
 import { toolKeys, healthKeys } from "../api/querykeys";
 import type {
-  ToolOut,
   ToolOutExt,
   ToolCreate,
   ToolUpdate,
@@ -32,27 +32,35 @@ export function useHealth() {
   });
 }
 
-export function useTools(
-  params?: ToolsSearchParams,
-  options?: Omit<UseQueryOptions<ToolOut[]>, "queryKey" | "queryFn">
-) {
-  return useQuery<ToolOut[]>({
+const LIMIT = 100;
+
+export function useTools(params?: ToolsSearchParams) {
+  return useInfiniteQuery({
     queryKey: toolKeys.list(params),
-    queryFn: () => searchTools(params),
+    queryFn: ({ pageParam = 0 }) =>
+      searchTools({ ...params, limit: LIMIT, offset: pageParam as number }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const total = Number(lastPage.headers.get("x-total-count"));
+      const fetched = allPages.flatMap((p) => p.data).length;
+      return fetched < total ? fetched : undefined;
+    },
     staleTime: 60_000,
-    ...options,
   });
 }
  
-export function useMyTools(
-  params?: ToolsSearchParams,
-  options?: Omit<UseQueryOptions<ToolOut[]>, "queryKey" | "queryFn">
-) {
-  return useQuery<ToolOut[]>({
+export function useMyTools(params?: ToolsSearchParams) {
+  return useInfiniteQuery({
     queryKey: [...toolKeys.list(params), "mine"] as const,
-    queryFn: () => searchMyTools(params),
+    queryFn: ({ pageParam = 0 }) =>
+      searchMyTools({ ...params, limit: LIMIT, offset: pageParam as number }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const total = Number(lastPage.headers.get("x-total-count"));
+      const fetched = allPages.flatMap((p) => p.data).length;
+      return fetched < total ? fetched : undefined;
+    },
     staleTime: 60_000,
-    ...options,
   });
 }
 

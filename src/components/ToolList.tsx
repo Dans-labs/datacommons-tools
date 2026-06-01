@@ -10,11 +10,16 @@ import { Input } from "@base-ui/react/input";
 interface ToolGridProps {
   title?: string;
   tools?: ToolOut[];
+  total?: number;
   isLoading?: boolean;
   isError?: boolean;
+  isFetchingNextPage?: boolean;
+  hasNextPage?: boolean;
+  fetchNextPage?: () => void;
   handleFilter: (key: keyof ToolsSearchParams, value: string) => void;
   searchParams?: ToolsSearchParams;
 }
+
 
 const COLS = [
   { 
@@ -49,10 +54,14 @@ const COLS = [
 export default function ToolList({
   title = "Tools",
   tools,
+  total,
   isLoading,
   isError,
   handleFilter,
   searchParams,
+  isFetchingNextPage,
+  hasNextPage,
+  fetchNextPage,
 }: ToolGridProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -63,12 +72,21 @@ export default function ToolList({
   );
  
   const rowVirtualizer = useVirtualizer({
-    count: tools?.length ?? 0,
+    count: total ?? 0,
     getScrollElement: () => scrollRef.current,
-    estimateSize: () => 56,
+    estimateSize: () => 100,
     overscan: 8,
     getItemKey: (index) => tools?.[index]?.id ?? index,
   });
+
+  const virtualItems = rowVirtualizer.getVirtualItems();
+  useEffect(() => {
+    const last = virtualItems[virtualItems.length - 1];
+    if (!last) return;
+    if (last.index >= (tools?.length ?? 0) - 1 && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage?.();
+    }
+  }, [virtualItems, hasNextPage, isFetchingNextPage, tools?.length]);
 
   useEffect(() => {
     const targetId = sessionStorage.getItem("scrollToToolId");
@@ -87,12 +105,12 @@ export default function ToolList({
     <div className="h-screen overflow-hidden">
       <div className="flex items-baseline gap-2.5 px-6 py-4 border-b border-gray-100 dark:border-gray-800" ref={headerRef}>
         <h1>{title}</h1>
-        <span className="text-sm text-gray-600 dark:text-gray-400">{isLoading ? "Fetching..." : `${tools?.length ?? 0} results`}</span>
+        <span className="text-sm text-gray-600 dark:text-gray-400">{isLoading ? "Fetching..." : `${total} results`}</span>
       </div>
 
       {/* horizontal scroll wrapper — filter bar + body move together */}
       <div className="overflow-x-auto">
-        <div className="min-w-160">
+        <div className="min-w-160 relative">
 
           {/* vertical scroll body */}
           <div
@@ -137,20 +155,27 @@ export default function ToolList({
             )}
             {!isLoading && !isError && (tools?.length ?? 0) > 0 && (
               <div style={{ height: rowVirtualizer.getTotalSize(), position: "relative" }}>
-                {rowVirtualizer.getVirtualItems().map((vItem, i) => (
-                  <div
-                    key={`${vItem.key}-${i}`}
-                    ref={rowVirtualizer.measureElement}
-                    data-index={vItem.index}
-                    style={{ position: "absolute", top: 0, transform: `translateY(${vItem.start}px)`, width: "100%" }}
-                  >
-                    <ToolRow tool={tools![vItem.index]} />
-                  </div>
-                ))}
+                {virtualItems.map((vItem, i) => {
+                  const tool = tools?.[vItem.index];
+                  if (!tool) return <div key={vItem.key} style={{ position: "absolute", top: 0, transform: `translateY(${vItem.start}px)`, width: "100%", height: 100 }} />;
+                  return (
+                    <div
+                      key={`${vItem.key}-${i}`}
+                      data-index={vItem.index}
+                      style={{ position: "absolute", top: 0, transform: `translateY(${vItem.start}px)`, width: "100%" }}
+                    >
+                      <ToolRow tool={tool} />
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
-
+          {isFetchingNextPage && (
+            <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center h-20 text-sm text-gray-700 dark:text-gray-300 p-10 bg-gradient-to-t from-gray-50 dark:from-gray-900 pointer-events-none">
+              <Loader /><span className="ml-2">Fetching more tools...</span>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -158,11 +183,12 @@ export default function ToolList({
 }
 
 function ToolRow({ tool }: { tool: ToolOut }) {
+  // todo: make expandeble when row content too long?? At least fix overflow..
   return (
     <Link 
       to="/tools/$id" 
       params={{ id: String(tool.id) }}
-      className="flex items-start border-b border-gray-100 dark:border-gray-800 px-6 py-2.5 hover:bg-white dark:hover:bg-gray-950 transition-colors"
+      className="overflow-hidden flex h-25 items-start border-b border-gray-100 dark:border-gray-800 px-6 py-2.5 hover:bg-white dark:hover:bg-gray-950 transition-colors"
       onClick={() => sessionStorage.setItem("scrollToToolId", String(tool.id))}
     >
       {COLS.map((col) => {

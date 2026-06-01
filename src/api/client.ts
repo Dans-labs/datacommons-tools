@@ -29,3 +29,25 @@ export async function apiFetch<T>(
   const text = await res.text();
   return text ? (JSON.parse(text) as T) : (undefined as T);
 }
+
+export async function apiFetchWithHeaders<T>(
+  path: string,
+  options: RequestInit = {},
+  authenticated = true
+): Promise<{ data: T; headers: Headers }> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(options.headers as Record<string, string>),
+  };
+  if (authenticated && _token) headers["Authorization"] = `Bearer ${_token}`;
+
+  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers });
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`${res.status} ${res.statusText}: ${body}`);
+  }
+
+  const text = await res.text();
+  const data = text ? (JSON.parse(text) as T) : (undefined as T);
+  return { data, headers: res.headers };
+}

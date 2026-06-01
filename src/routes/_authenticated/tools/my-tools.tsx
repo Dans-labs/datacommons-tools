@@ -18,5 +18,9 @@ function RouteComponent() {
   const handleFilter = (key: keyof ToolsSearchParams, value: string) =>
     navigate({ search: (prev) => ({ ...prev, [key]: value || undefined }), replace: true });
 
-  return <ToolsRoute title="My Tools" useToolsHook={useMyTools} getSearch={Route.useSearch} handleFilter={handleFilter} />;
+  return <ToolsRoute 
+    title="My Tools" 
+    useToolsHook={useMyTools} 
+    getSearch={Route.useSearch} 
+    handleFilter={handleFilter} />;
 }
