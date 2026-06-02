@@ -20,7 +20,6 @@ interface ToolGridProps {
   searchParams?: ToolsSearchParams;
 }
 
-
 const COLS = [
   { 
     key: "name",
@@ -89,6 +88,7 @@ export default function ToolList({
   }, [virtualItems, hasNextPage, isFetchingNextPage, tools?.length]);
 
   useEffect(() => {
+    // scroll back to clicked on tool if back button is used from details page
     const targetId = sessionStorage.getItem("scrollToToolId");
     if (!targetId || !tools?.length) return;
 
@@ -103,7 +103,7 @@ export default function ToolList({
  
   return (
     <div className="h-screen overflow-hidden">
-      <div className="flex items-baseline gap-2.5 px-6 py-4 border-b border-gray-100 dark:border-gray-800" ref={headerRef}>
+      <div className="flex items-baseline gap-2.5 px-6 py-4 border-b border-gray-200 dark:border-gray-800" ref={headerRef}>
         <h1>{title}</h1>
         <span className="text-sm text-gray-600 dark:text-gray-400">{isLoading ? "Fetching..." : `${total} results`}</span>
       </div>
@@ -118,7 +118,7 @@ export default function ToolList({
             className="overflow-y-auto bg-gray-50 dark:bg-gray-900"
             style={{ height: `calc(100vh - ${headerRef.current?.offsetHeight ?? 89}px)` }}
           >
-            <div className="flex px-6 bg-gray-50/70 dark:bg-gray-900/70 backdrop-blur border-b border-gray-100 dark:border-gray-800 sticky top-0 z-10">
+            <div className="flex px-6 bg-gray-50/70 dark:bg-gray-900/70 backdrop-blur border-b border-gray-200 dark:border-gray-800 sticky top-0 z-20 relative">
               {COLS.map((col) => (
                 <div key={col.key} className={`${col.grow} py-2.5 pr-4`}>
                   <p className="text-xs font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-1.5">
@@ -154,7 +154,7 @@ export default function ToolList({
               </div>
             )}
             {!isLoading && !isError && (tools?.length ?? 0) > 0 && (
-              <div style={{ height: rowVirtualizer.getTotalSize(), position: "relative" }}>
+              <div className="relative overflow-hidden" style={{ height: rowVirtualizer.getTotalSize() }}>
                 {virtualItems.map((vItem, i) => {
                   const tool = tools?.[vItem.index];
                   if (!tool) return <div key={vItem.key} style={{ position: "absolute", top: 0, transform: `translateY(${vItem.start}px)`, width: "100%", height: 100 }} />;
@@ -162,33 +162,45 @@ export default function ToolList({
                     <div
                       key={`${vItem.key}-${i}`}
                       data-index={vItem.index}
-                      style={{ position: "absolute", top: 0, transform: `translateY(${vItem.start}px)`, width: "100%" }}
+                      style={{ transform: `translateY(${vItem.start}px)` }}
+                      className="hover:z-10 w-full absolute top-0"
                     >
-                      <ToolRow tool={tool} />
+                      <ToolRow tool={tool} odd={vItem.index % 2 === 0} />
                     </div>
                   );
                 })}
               </div>
             )}
+            {isFetchingNextPage && (
+              <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center h-20 text-sm text-gray-700 dark:text-gray-300 p-10 bg-linear-to-t from-gray-50 dark:from-gray-900 pointer-events-none overflow-hidden">
+                <Loader /><span className="ml-2">Fetching more tools...</span>
+              </div>
+            )}
           </div>
-          {isFetchingNextPage && (
-            <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center h-20 text-sm text-gray-700 dark:text-gray-300 p-10 bg-gradient-to-t from-gray-50 dark:from-gray-900 pointer-events-none">
-              <Loader /><span className="ml-2">Fetching more tools...</span>
-            </div>
-          )}
         </div>
       </div>
     </div>
   );
 }
 
-function ToolRow({ tool }: { tool: ToolOut }) {
+function ToolRow({ tool, odd }: { tool: ToolOut, odd: boolean }) {
   // todo: make expandeble when row content too long?? At least fix overflow..
   return (
     <Link 
       to="/tools/$id" 
       params={{ id: String(tool.id) }}
-      className="overflow-hidden flex h-25 items-start border-b border-gray-100 dark:border-gray-800 px-6 py-2.5 hover:bg-white dark:hover:bg-gray-950 transition-colors"
+      className={`
+        overflow-hidden min-h-25 h-25 px-6 py-2.5 w-full
+        hover:h-auto hover:scale-102
+        flex items-start 
+        border-b border-gray-200 dark:border-gray-800 
+        hover:bg-white/80 dark:hover:bg-gray-950/80 transition-transform duration-200 backdrop-blur
+        ${!odd 
+          ? 'bg-gray-100 dark:bg-gray-900 before:from-gray-100 before:to-transparent dark:before:from-gray-900' 
+          : 'bg-gray-200 dark:bg-gray-800 before:from-gray-200 before:to-transparent dark:before:from-gray-800'
+        }
+        before:absolute before:content-[""] before:bottom-0 before:left-0 before:right-0 before:h-5 before:bg-linear-to-t hover:before:content-none
+      `}
       onClick={() => sessionStorage.setItem("scrollToToolId", String(tool.id))}
     >
       {COLS.map((col) => {
