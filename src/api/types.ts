@@ -87,10 +87,11 @@ export interface ToolUpdate {
 
 export interface ToolsSearchParams {
   name?: string;
-  input_file_formats?: string;
-  output_file_formats?: string;
+  description?: string;
+  input_format?: string;
+  output_format?: string;
   types?: string;
-  tags?: string;
+  tag?: string;
 }
 
 export interface HealthResponse {

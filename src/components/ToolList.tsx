@@ -31,20 +31,21 @@ const COLS = [
   { 
     key: "description",
     label: "Description",
-    filterKey: false,
+    filterKey: "description" as const,
+    placeholder: "Search description…",
     grow: "flex-[2_0_180px]" 
   },
   { 
     key: "input_file_formats",
     label: "Input formats",
-    filterKey: "input_file_formats" as const,
+    filterKey: "input_format" as const,
     placeholder: "e.g. fasta",
     grow: "flex-[1.5_0_140px]" 
   },
   { 
     key: "tags",
     label: "Tags",
-    filterKey: "tags" as const,
+    filterKey: "tag" as const,
     placeholder: "e.g. cram",
     grow: "flex-[1.5_0_140px]" 
   },
@@ -120,7 +121,7 @@ export default function ToolList({
           >
             <div className="flex px-6 bg-gray-50/70 dark:bg-gray-900/70 backdrop-blur border-b border-gray-200 dark:border-gray-800 sticky top-0 z-20 relative">
               {COLS.map((col) => (
-                <div key={col.key} className={`${col.grow} py-2.5 pr-4`}>
+                <div key={col.key} className={`${col.grow} py-2.5 pr-4 max-w-150`}>
                   <p className="text-xs font-medium uppercase tracking-widest text-gray-600 dark:text-gray-200 mb-1.5">
                     {col.label}
                   </p>
@@ -184,29 +185,28 @@ export default function ToolList({
 }
 
 function ToolRow({ tool, odd }: { tool: ToolOut, odd: boolean }) {
-  // todo: make expandeble when row content too long?? At least fix overflow..
   return (
     <Link 
       to="/tools/$id" 
       params={{ id: String(tool.id) }}
       className={`
         overflow-hidden min-h-25 h-25 px-6 py-2.5 w-full
-        hover:h-auto hover:scale-102
+        hover:h-auto hover:-translate-y-1 transform-gpu
         flex items-start 
         border-b border-gray-200 dark:border-gray-800 
-        hover:bg-white/80 dark:hover:bg-gray-950/80 transition-transform duration-200 backdrop-blur
+        hover:bg-white/80 dark:hover:bg-gray-950/80 transition-transform duration-100 backdrop-blur
         ${!odd 
           ? 'bg-gray-100 dark:bg-gray-900 before:from-gray-100 before:to-transparent dark:before:from-gray-900' 
           : 'bg-gray-200 dark:bg-gray-800 before:from-gray-200 before:to-transparent dark:before:from-gray-800'
         }
-        before:absolute before:content-[""] before:bottom-0 before:left-0 before:right-0 before:h-5 before:bg-linear-to-t hover:before:content-none
+        before:absolute before:content-[""] before:bottom-0 before:left-0 before:right-0 before:h-5 before:bg-linear-to-t hover:before:opacity-0
       `}
       onClick={() => sessionStorage.setItem("scrollToToolId", String(tool.id))}
     >
       {COLS.map((col) => {
         if (col.key === "name") {
           return (
-            <div key={col.key} className={`${col.grow} pr-4 min-w-0`}>
+            <div key={col.key} className={`${col.grow} pr-4 min-w-0 max-w-150`}>
               <p className="font-medium text-sm text-gray-900 dark:text-gray-100 mb-1">{tool.name}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400 font-mono mt-0.5">{tool.version}</p>
             </div>
@@ -214,13 +214,13 @@ function ToolRow({ tool, odd }: { tool: ToolOut, odd: boolean }) {
         }
         if (col.key === "description") {
           return (
-            <div key={col.key} className={`${col.grow} pr-4 min-w-0`}>
+            <div key={col.key} className={`${col.grow} pr-4 min-w-0 max-w-150`}>
               <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-3">{tool.description}</p>
             </div>
           );
         }
         return (
-          <div className={`${col.grow} pr-4 min-w-0`} key={col.key}>
+          <div className={`${col.grow} pr-4 min-w-0 max-w-150`} key={col.key}>
             <TagList tags={tool[col.key]} col={col.key} />
           </div>
         )

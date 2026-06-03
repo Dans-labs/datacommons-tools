@@ -2,15 +2,11 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import type { ToolsSearchParams } from '../api/types';
 import { useTools } from '../hooks/useTools';
 import ToolsRoute from '../components/ToolsRoute';
+import { validateSearch } from '../helpers/validateSearch';
 
 // routes/index.tsx
 export const Route = createFileRoute('/')({
-  validateSearch: (search: Record<string, unknown>): ToolsSearchParams => ({
-    name: search.name as string | undefined,
-    input_file_formats: search.input_file_formats as string | undefined,
-    output_file_formats: search.output_file_formats as string | undefined,
-    tags: search.tags as string | undefined,
-  }),
+  validateSearch: validateSearch,
   component: () => <RouteComponent />,
 })
 
