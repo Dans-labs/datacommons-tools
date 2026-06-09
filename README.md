@@ -1,6 +1,6 @@
 # UI for the EOSC DataCommons Tool Registry API
 
-Tanstack Start + TypeScript + Vite Plus application using OIDC authentication.
+Tanstack Start + TypeScript + Vite Plus application using OIDC authentication. Multilingual ready.
 
 ## Configuration
 
