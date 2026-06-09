@@ -1,9 +1,8 @@
-import type { ToolOut, ToolsSearchParams } from '../api/types';
-import ToolList from './ToolList';
-import Metadata from './Metadata';
-import type { UseInfiniteQueryResult, InfiniteData } from '@tanstack/react-query';
+import type { ToolOut, ToolsSearchParams } from "@/api/types";
+import ToolList from "./ToolList";
+import type { UseInfiniteQueryResult, InfiniteData } from "@tanstack/react-query";
 
-type PageData = { data: ToolOut[]; headers: Headers };
+type PageData = { data: ToolOut[]; total: number };
 
 interface ToolsRouteProps {
   title: string;
@@ -12,28 +11,31 @@ interface ToolsRouteProps {
   handleFilter: (key: keyof ToolsSearchParams, value: string) => void;
 }
 
-export default function ToolsRoute({ title, useToolsHook, getSearch, handleFilter }: ToolsRouteProps) {
+export default function ToolsRoute({
+  title,
+  useToolsHook,
+  getSearch,
+  handleFilter,
+}: ToolsRouteProps) {
   const params = getSearch();
-  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = useToolsHook(params);
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useToolsHook(params);
 
   const tools = data?.pages.flatMap((p) => p.data);
-  const total = Number(data?.pages[0]?.headers.get('x-total-count') ?? 0);
+  const total = data?.pages[0]?.total ?? 0;
 
   return (
-    <>
-      <Metadata title={title} />
-      <ToolList
-        title={title}
-        tools={tools}
-        total={total}
-        isLoading={isLoading}
-        isError={isError}
-        isFetchingNextPage={isFetchingNextPage}
-        hasNextPage={hasNextPage}
-        fetchNextPage={fetchNextPage}
-        handleFilter={handleFilter}
-        searchParams={params}
-      />
-    </>
+    <ToolList
+      title={title}
+      tools={tools}
+      total={total}
+      isLoading={isLoading}
+      isError={isError}
+      isFetchingNextPage={isFetchingNextPage}
+      hasNextPage={hasNextPage}
+      fetchNextPage={fetchNextPage}
+      handleFilter={handleFilter}
+      searchParams={params}
+    />
   );
 }

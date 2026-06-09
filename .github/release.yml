@@ -41,25 +41,19 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -e
-
             cd ${{ secrets.SERVER_APP_DIR }}
-
-            # update repo inside subfolder
             cd datacommons-tools
             git fetch --tags
             git checkout -f ${{ github.event.release.tag_name }}
             cd ..
-
-            # deploy (ephemeral env vars)
-            VITE_OIDC_AUTHORITY="${{ vars.VITE_OIDC_AUTHORITY }}" \
-            VITE_OIDC_CLIENT_ID="${{ vars.VITE_OIDC_CLIENT_ID }}" \
+            # VITE_TOOLS_API is a build arg, runtime vars go in environment
             VITE_TOOLS_API="${{ vars.VITE_TOOLS_API }}" \
+            OIDC_ISSUER_URI="${{ vars.OIDC_ISSUER_URI }}" \
+            OIDC_CLIENT_ID="${{ vars.OIDC_CLIENT_ID }}" \
+            TOOLS_API="${{ vars.TOOLS_API }}" \
             docker compose up -d --build --remove-orphans frontend
-
             sleep 5
-
             STATUS=$(docker inspect --format='{{.State.Status}}' frontend)
-
             if [[ "$STATUS" != "running" ]]; then
               echo "::error::Container is not running after deploy (state: $STATUS)"
               docker logs frontend

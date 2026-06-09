@@ -1,24 +1,23 @@
-const BASE_URL = import.meta.env.VITE_TOOLS_API as string;
+import { fetchWithAuth } from "@/oidc";
 
-let _token: string | null = null;
-
-export function setAuthToken(token: string | null) {
-  _token = token;
-}
+const BASE_URL =
+  typeof window === "undefined"
+    ? process.env.TOOLS_API
+    : (import.meta.env.VITE_TOOLS_API as string);
 
 export async function apiFetch<T>(
   path: string,
   options: RequestInit = {},
-  authenticated = true
+  auth: boolean = false,
 ): Promise<T> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
   };
 
-  if (authenticated && _token) headers["Authorization"] = `Bearer ${_token}`;
-
-  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers });
+  const res = auth
+    ? await fetchWithAuth(`${BASE_URL}${path}`, { ...options, headers })
+    : await fetch(`${BASE_URL}${path}`, { ...options, headers });
 
   if (!res.ok) {
     const body = await res.text();
@@ -33,15 +32,17 @@ export async function apiFetch<T>(
 export async function apiFetchWithHeaders<T>(
   path: string,
   options: RequestInit = {},
-  authenticated = true
+  auth: boolean = false,
 ): Promise<{ data: T; headers: Headers }> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
   };
-  if (authenticated && _token) headers["Authorization"] = `Bearer ${_token}`;
 
-  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers });
+  const res = auth
+    ? await fetchWithAuth(`${BASE_URL}${path}`, { ...options, headers })
+    : await fetch(`${BASE_URL}${path}`, { ...options, headers });
+
   if (!res.ok) {
     const body = await res.text();
     throw new Error(`${res.status} ${res.statusText}: ${body}`);

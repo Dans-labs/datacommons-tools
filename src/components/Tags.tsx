@@ -1,25 +1,37 @@
 const TAG_CLASS: Record<string, string> = {
-  input_file_formats:  "bg-amber-100  text-amber-800  dark:bg-amber-900/40  dark:text-amber-300",
+  input_file_formats: "bg-amber-100  text-amber-800  dark:bg-amber-900/40  dark:text-amber-300",
   output_file_formats: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300",
-  types:          "bg-green-100  text-green-800  dark:bg-green-900/40  dark:text-green-300",
-  keyword:       "bg-rose-100   text-rose-800   dark:bg-rose-900/40   dark:text-rose-300",
-  tags:          "bg-sky-100    text-sky-800    dark:bg-sky-900/40    dark:text-sky-300",
-  other:         "bg-neutral-300   text-neutral-600   dark:bg-neutral-600/60   dark:text-neutral-400",
+  types: "bg-green-100  text-green-800  dark:bg-green-900/40  dark:text-green-300",
+  keyword: "bg-rose-100   text-rose-800   dark:bg-rose-900/40   dark:text-rose-300",
+  tags: "bg-sky-100    text-sky-800    dark:bg-sky-900/40    dark:text-sky-300",
+  other: "bg-neutral-300   text-neutral-600   dark:bg-neutral-600/60   dark:text-neutral-400",
 };
- 
+
 export function Tag({ label, col }: { label: string; col: keyof typeof TAG_CLASS }) {
   return (
-    <span className={`inline-block px-2 py-0.5 rounded text-xs font-mono mr-1 mb-1 ${TAG_CLASS[col]}`}>
+    <span
+      className={`inline-block px-2 py-0.5 rounded text-xs font-mono mr-1 mb-1 ${TAG_CLASS[col]}`}
+    >
       {label}
     </span>
   );
 }
- 
-export function TagList({ tags, col, className }: { tags: string[] | null; col: keyof typeof TAG_CLASS; className?: string }) {
+
+export function TagList({
+  tags,
+  col,
+  className,
+}: {
+  tags: string[] | null;
+  col: keyof typeof TAG_CLASS;
+  className?: string;
+}) {
   if (!tags?.length) return <div className="text-gray-300 dark:text-gray-600 text-xs">—</div>;
   return (
     <div className={`flex flex-wrap ${className}`}>
-      {tags.map((t) => <Tag key={t} label={t} col={col} />)}
+      {tags.map((t) => (
+        <Tag key={t} label={t} col={col} />
+      ))}
     </div>
   );
 }

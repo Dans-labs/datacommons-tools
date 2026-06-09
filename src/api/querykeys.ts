@@ -8,11 +8,13 @@ export const toolKeys = {
   all: ["tools"] as const,
   lists: () => [...toolKeys.all, "list"] as const,
   list: (params?: ToolsSearchParams) =>
-    [...toolKeys.lists(), params ?? {}] as const,
+    [
+      ...toolKeys.lists(),
+      Object.fromEntries(Object.entries(params ?? {}).filter(([, v]) => v !== undefined)),
+    ] as const,
   details: () => [...toolKeys.all, "detail"] as const,
   detail: (id: number) => [...toolKeys.details(), id] as const,
-  rawDefinition: (id: number) =>
-    [...toolKeys.all, "rawDefinition", id] as const,
+  rawDefinition: (id: number) => [...toolKeys.all, "rawDefinition", id] as const,
 };
 
 export const healthKeys = {

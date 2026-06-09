@@ -22,6 +22,7 @@ import type {
   ToolUpdate,
   ToolsSearchParams,
   HealthResponse,
+  ToolOut,
 } from "../api/types";
 
 export function useHealth() {
@@ -32,41 +33,59 @@ export function useHealth() {
   });
 }
 
-const LIMIT = 100;
+export const LIMIT = 100;
+
+export const toolsQueryFn = ({
+  pageParam = 0,
+  params,
+}: {
+  pageParam?: number;
+  params?: ToolsSearchParams;
+}) =>
+  searchTools({ ...params, limit: LIMIT, offset: pageParam as number }).then(
+    ({ data, headers }) => ({
+      data,
+      total: Number(headers.get("x-total-count") ?? 0),
+    }),
+  );
+
+export const getNextPageParam = (
+  lastPage: { data: ToolOut[]; total: number },
+  allPages: { data: ToolOut[]; total: number }[],
+) => {
+  const fetched = allPages.flatMap((p) => p.data).length;
+  return fetched < lastPage.total ? fetched : undefined;
+};
 
 export function useTools(params?: ToolsSearchParams) {
   return useInfiniteQuery({
     queryKey: toolKeys.list(params),
-    queryFn: ({ pageParam = 0 }) =>
-      searchTools({ ...params, limit: LIMIT, offset: pageParam as number }),
+    queryFn: ({ pageParam }) => toolsQueryFn({ pageParam, params }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      const total = Number(lastPage.headers.get("x-total-count"));
-      const fetched = allPages.flatMap((p) => p.data).length;
-      return fetched < total ? fetched : undefined;
-    },
+    getNextPageParam,
     staleTime: 60_000,
   });
 }
- 
+
 export function useMyTools(params?: ToolsSearchParams) {
   return useInfiniteQuery({
-    queryKey: [...toolKeys.list(params), "mine"] as const,
-    queryFn: ({ pageParam = 0 }) =>
-      searchMyTools({ ...params, limit: LIMIT, offset: pageParam as number }),
+    queryKey: [...toolKeys.list(params), "my-tools"] as const,
+    queryFn: ({ pageParam }) =>
+      searchMyTools({ ...params, limit: LIMIT, offset: pageParam as number }).then(
+        ({ data, headers }) => ({
+          data,
+          total: Number(headers.get("x-total-count") ?? 0),
+        }),
+      ),
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      const total = Number(lastPage.headers.get("x-total-count"));
-      const fetched = allPages.flatMap((p) => p.data).length;
-      return fetched < total ? fetched : undefined;
-    },
+    getNextPageParam,
     staleTime: 60_000,
   });
 }
 
 export function useTool(
   id: number,
-  options?: Omit<UseQueryOptions<ToolOutExt>, "queryKey" | "queryFn">
+  options?: Omit<UseQueryOptions<ToolOutExt>, "queryKey" | "queryFn">,
 ) {
   return useQuery<ToolOutExt>({
     queryKey: toolKeys.detail(id),
@@ -78,7 +97,7 @@ export function useTool(
 
 export function useToolRawDefinition(
   id: number,
-  options?: Omit<UseQueryOptions<unknown>, "queryKey" | "queryFn">
+  options?: Omit<UseQueryOptions<unknown>, "queryKey" | "queryFn">,
 ) {
   return useQuery({
     queryKey: toolKeys.rawDefinition(id),
@@ -95,7 +114,7 @@ export function useCreateTool() {
       return createTool(body);
     },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: toolKeys.lists() });
+      void qc.invalidateQueries({ queryKey: toolKeys.lists() });
     },
   });
 }
@@ -105,12 +124,18 @@ export function useUpdateTool(id: number | undefined) {
   return useMutation({
     mutationFn: (body: ToolUpdate) => {
       // strip body of created_at, updated_at, created_by, and id fields if they exist since they are not accepted by the update endpoint
-      const { created_at, updated_at, created_by, id, ...updatedBody } = body;
-      return id ? updateTool(id, updatedBody) : Promise.reject("Invalid ID")
+      const {
+        created_at: _created_at,
+        updated_at: _updated_at,
+        created_by: _created_by,
+        id,
+        ...updatedBody
+      } = body;
+      return id ? updateTool(id, updatedBody) : Promise.reject("Invalid ID");
     },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: id ? toolKeys.detail(id) : [] });
-      qc.invalidateQueries({ queryKey: toolKeys.lists() });
+      void qc.invalidateQueries({ queryKey: id ? toolKeys.detail(id) : [] });
+      void qc.invalidateQueries({ queryKey: toolKeys.lists() });
     },
   });
 }
@@ -121,7 +146,7 @@ export function useDeleteTool() {
     mutationFn: (id: number) => deleteTool(id),
     onSuccess: (_data, id) => {
       qc.removeQueries({ queryKey: toolKeys.detail(id) });
-      qc.invalidateQueries({ queryKey: toolKeys.lists() });
+      void qc.invalidateQueries({ queryKey: toolKeys.lists() });
     },
   });
 }
