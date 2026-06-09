@@ -16,6 +16,13 @@ Copy `.env.example` and fill in the values:
 For local development use `.env.development`, for production use `.env.production`.
 
 ## Running locally
+Make sure Vite Plus is installed. If not, install:
+```bash
+curl -fsSL https://vite.plus | bash
+```
+and open a new terminal tab.
+
+When Vite Plus is installed, run:
 
 ```bash
 vp i
