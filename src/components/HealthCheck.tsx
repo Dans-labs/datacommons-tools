@@ -1,42 +1,58 @@
-import { useHealth } from '../hooks/useTools';
-import { ExclamationCircleIcon, CheckCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
-import Tooltip from './Tooltip';
+import { useHealth } from "../hooks/useTools";
+import {
+  ExclamationCircleIcon,
+  CheckCircleIcon,
+  QuestionMarkCircleIcon,
+} from "@heroicons/react/24/outline";
+import Tooltip from "./Tooltip";
+import { m } from "@/paraglide/messages";
 
 export function HealthCheck({ expanded }: { expanded: boolean }) {
   const { data, isLoading, isError } = useHealth();
 
   return (
-    <Tooltip 
-      pos="right" 
-      text={isLoading ? "Checking API health..." : isError ? "API is down." : `API status: ${data?.status} (v${data?.version})`} 
+    <Tooltip
+      pos="right"
+      text={
+        isLoading
+          ? m.checking_api_health()
+          : isError
+            ? m.api_is_down()
+            : m.api_status({ status: data?.status ?? "", version: data?.version ?? "" })
+      }
       className={`${expanded ? "hidden" : ""} md:hidden`}
-    >    
-      <div 
+    >
+      <div
         className={`
         text-xs text-center 
         rounded-lg 
         py-2 px-1 md:px-4 w-full
         font-bold 
         text-white
-        bg-linear-to-r ${isError ? 'from-red-500 to-red-600' : isLoading ? 'from-yellow-500 to-yellow-600' : 'from-green-500 to-green-600'}
-      `}>
-        {
-          isLoading ?
+        bg-linear-to-r ${isError ? "from-red-500 to-red-600" : isLoading ? "from-yellow-500 to-yellow-600" : "from-green-500 to-green-600"}
+      `}
+      >
+        {isLoading ? (
           <span className="flex items-center justify-center gap-1">
             <QuestionMarkCircleIcon className="w-5 h-5" />
-            <span className={`${!expanded ? "hidden" : ""} md:block`}>Checking API health…</span>
-          </span> : 
-          isError ? 
+            <span className={`${!expanded ? "hidden" : ""} md:block`}>
+              {m.checking_api_health()}
+            </span>
+          </span>
+        ) : isError ? (
           <span className="flex items-center justify-center gap-1">
             <ExclamationCircleIcon className="w-5 h-5" />
-            <span className={`${!expanded ? "hidden" : ""} md:block`}>API is down.</span>
-          </span> :
+            <span className={`${!expanded ? "hidden" : ""} md:block`}>{m.api_is_down()}</span>
+          </span>
+        ) : (
           <span className="flex items-center justify-center gap-1">
             <CheckCircleIcon className="w-5 h-5" />
-            <span className={`${!expanded ? "hidden" : ""} md:block`}>API status: {data?.status} (v{data?.version})</span>
+            <span className={`${!expanded ? "hidden" : ""} md:block`}>
+              {m.api_status({ status: data?.status ?? "", version: data?.version ?? "" })}
+            </span>
           </span>
-        }
+        )}
       </div>
     </Tooltip>
   );
-}   
+}

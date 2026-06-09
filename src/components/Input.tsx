@@ -3,7 +3,7 @@ import type React from "react";
 import { Field } from "@base-ui/react/field";
 import { Input as BaseInput } from "@base-ui/react/input";
 import { Combobox } from "@base-ui/react/combobox";
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 /* Floating label helper */
 function Fieldset({
@@ -36,13 +36,15 @@ function Fieldset({
 function floatingLabelClass(floated: boolean, focused: boolean) {
   return `
     order-first absolute left-2.25 px-1 -translate-y-1/2 pointer-events-none
-    transition-all duration-200 bg-gray-100 dark:bg-gray-950 z-10
-    ${floated ? "top-px text-sm" : "top-1/2 text-sm"}
-    ${focused
-      ? "text-indigo-500"
-      : floated
-        ? "text-gray-600 dark:text-gray-400"
-        : "text-gray-600 dark:text-gray-400"}
+    transition-all duration-200 bg-gray-100 dark:bg-gray-950
+    ${floated ? "top-px text-sm z-10" : "top-1/2 text-sm"}
+    ${
+      focused
+        ? "text-indigo-500"
+        : floated
+          ? "text-gray-600 dark:text-gray-400"
+          : "text-gray-600 dark:text-gray-400"
+    }
   `;
 }
 
@@ -84,9 +86,7 @@ export function Input({ label, ...props }: InputProps) {
         />
       )}
 
-      <Field.Label className={floatingLabelClass(floated, focused)}>
-        {label}
-      </Field.Label>
+      <Field.Label className={floatingLabelClass(floated, focused)}>{label}</Field.Label>
 
       <Fieldset label={label} floated={floated} focused={focused} />
     </div>
@@ -129,14 +129,9 @@ export function ComboboxInput({
         onValueChange={(v) => onChange(v as string)}
         onOpenChange={setOpen}
       >
-        <Combobox.Input
-          placeholder=""
-          className="outline-none px-3 py-3 w-full bg-transparent"
-        />
+        <Combobox.Input placeholder="" className="outline-none px-3 py-3 w-full bg-transparent" />
 
-        <Field.Label className={floatingLabelClass(floated, open)}>
-          {label}
-        </Field.Label>
+        <Field.Label className={floatingLabelClass(floated, open)}>{label}</Field.Label>
 
         <Fieldset label={label} floated={floated} focused={open} />
 
@@ -210,9 +205,7 @@ export function MultiComboboxInput({
           />
         </Combobox.InputGroup>
 
-        <Field.Label className={floatingLabelClass(floated, open)}>
-          {label}
-        </Field.Label>
+        <Field.Label className={floatingLabelClass(floated, open)}>{label}</Field.Label>
 
         <Fieldset label={label} floated={floated} focused={open} />
 
@@ -235,7 +228,7 @@ export function MultiComboboxInput({
   );
 }
 
-/* 
+/*
 TagInput — free-form tags, no predefined options
 Uses a hidden Field.Control so Base UI tracks validity natively (required).
 tabIndex={-1} + aria-hidden keep it out of the tab order and away from AT. 
@@ -253,20 +246,22 @@ export function TagInput({ label, value: chips, onChange, required }: TagInputPr
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const hiddenRef = useRef<HTMLInputElement>(null);
- 
+
   const floated = focused || chips.length > 0 || inputValue.length > 0;
- 
+
   // Dispatch a native input event on the hidden Field.Control whenever chips
   // change so Base UI re-evaluates validity immediately, not just on submit.
   const dispatchNativeInput = (nextChips: string[]) => {
     const el = hiddenRef.current;
     if (!el) return;
     // Set the raw value directly so the native required check sees it.
-    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!
-      .set!.call(el, nextChips.join(","));
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!.call(
+      el,
+      nextChips.join(","),
+    );
     el.dispatchEvent(new Event("input", { bubbles: true }));
   };
- 
+
   const add = (val: string) => {
     const v = val.trim();
     if (!v || chips.includes(v)) return;
@@ -275,14 +270,14 @@ export function TagInput({ label, value: chips, onChange, required }: TagInputPr
     dispatchNativeInput(next);
     setInputValue("");
   };
- 
+
   const remove = (val: string) => {
     const next = chips.filter((c) => c !== val);
     onChange(next);
     dispatchNativeInput(next);
     setTimeout(() => inputRef.current?.focus(), 0);
   };
- 
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (["Enter", " ", ",", "Tab"].includes(e.key)) {
       e.preventDefault();
@@ -291,7 +286,7 @@ export function TagInput({ label, value: chips, onChange, required }: TagInputPr
       remove(chips[chips.length - 1]);
     }
   };
- 
+
   return (
     <div className="relative w-full">
       {/* Hidden control — gives Base UI a real validity target for `required`.
@@ -308,7 +303,7 @@ export function TagInput({ label, value: chips, onChange, required }: TagInputPr
         onChange={() => {}}
         className="sr-only"
       />
- 
+
       <div
         className="px-3 py-2 w-full min-h-12.5 flex flex-wrap items-center cursor-text"
         onClick={() => inputRef.current?.focus()}
@@ -316,14 +311,17 @@ export function TagInput({ label, value: chips, onChange, required }: TagInputPr
         {chips.map((val) => (
           <span
             key={val}
-            onMouseDown={(e) => { e.preventDefault(); remove(val); }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              remove(val);
+            }}
             className={`${chipClass} cursor-pointer hover:bg-indigo-200 dark:hover:bg-indigo-800`}
           >
             {val}
             <span className="opacity-60 hover:opacity-100 leading-none">×</span>
           </span>
         ))}
- 
+
         <input
           ref={inputRef}
           type="text"
@@ -331,23 +329,24 @@ export function TagInput({ label, value: chips, onChange, required }: TagInputPr
           className="outline-none bg-transparent flex-1 min-w-20 text-base py-1"
           onChange={(e) => setInputValue(e.target.value)}
           onFocus={() => setFocused(true)}
-          onBlur={() => { setFocused(false); if (inputValue.trim()) add(inputValue); }}
+          onBlur={() => {
+            setFocused(false);
+            if (inputValue.trim()) add(inputValue);
+          }}
           onKeyDown={handleKeyDown}
           aria-label={label}
         />
       </div>
- 
-      <Field.Label className={floatingLabelClass(floated, focused)}>
-        {label}
-      </Field.Label>
- 
+
+      <Field.Label className={floatingLabelClass(floated, focused)}>{label}</Field.Label>
+
       <Fieldset label={label} floated={floated} focused={focused} />
     </div>
   );
 }
 
 const ITEM_HEIGHT = 36; // px — must match the item's rendered height
-const MAX_VISIBLE = 8;  // rows shown before scrolling kicks in
+const MAX_VISIBLE = 8; // rows shown before scrolling kicks in
 
 function VirtualizedList() {
   const filteredItems = Combobox.useFilteredItems<string>();
@@ -384,6 +383,7 @@ function VirtualizedList() {
               index={vItem.index}
               value={item}
               ref={virtualizer.measureElement}
+              data-index={vItem.index}
               className={itemClass}
               style={{
                 position: "absolute",

@@ -1,6 +1,6 @@
-import { Button as BaseButton } from '@base-ui/react/button';
+import { Button as BaseButton } from "@base-ui/react/button";
 
-interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
+interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   nativeButton?: boolean; // if true, render the button as a native button element instead of the default BaseButton
   render?: React.ReactElement;
 }
@@ -10,6 +10,7 @@ export function Button({ children, className, render, ...rest }: ButtonProps) {
     <BaseButton
       {...rest}
       render={render}
+      nativeButton={!render}
       className={`
         px-3 md:px-4 
         py-2 
@@ -37,6 +38,7 @@ export function OutlineButton({ children, className, render, ...rest }: ButtonPr
     <BaseButton
       {...rest}
       render={render}
+      nativeButton={!render}
       className={`
         p-0.5
         rounded-lg

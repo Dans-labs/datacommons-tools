@@ -15,4 +15,4 @@ export const useLicenses = () => {
     queryFn: fetchLicenses,
     staleTime: Infinity, // never refetch unless you want to
   });
-}
+};

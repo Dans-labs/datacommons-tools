@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 
 // Todo switch to Base UI's Tooltip once it actually works..
- 
+
 type TooltipPosition = "top" | "bottom" | "left" | "right";
- 
+
 interface TooltipProps {
   children: React.ReactNode;
   text: string;
@@ -11,27 +11,37 @@ interface TooltipProps {
   className?: string;
   fullWidth?: boolean;
 }
- 
+
 const positionStyles: Record<TooltipPosition, { tooltip: string; arrow: string }> = {
   top: {
     tooltip: "bottom-full left-1/2 -translate-x-1/2 mb-2",
-    arrow: "top-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-zinc-800",
+    arrow:
+      "top-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-zinc-800",
   },
   bottom: {
     tooltip: "top-full left-1/2 -translate-x-1/2 mt-2",
-    arrow: "bottom-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-zinc-800",
+    arrow:
+      "bottom-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-zinc-800",
   },
   left: {
     tooltip: "right-full top-1/2 -translate-y-1/2 mr-2",
-    arrow: "left-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-zinc-800",
+    arrow:
+      "left-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-zinc-800",
   },
   right: {
     tooltip: "left-full top-1/2 -translate-y-1/2 ml-2",
-    arrow: "right-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-zinc-800",
+    arrow:
+      "right-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-zinc-800",
   },
 };
- 
-export default function Tooltip({ children, text, pos = "top", className, fullWidth }: TooltipProps) {
+
+export default function Tooltip({
+  children,
+  text,
+  pos = "top",
+  className,
+  fullWidth,
+}: TooltipProps) {
   const [visible, setVisible] = useState(false);
   const styles = positionStyles[pos];
 
@@ -47,7 +57,7 @@ export default function Tooltip({ children, text, pos = "top", className, fullWi
     if (timerRef.current) clearTimeout(timerRef.current);
     setVisible(false);
   };
- 
+
   return (
     <span
       className={`relative inline-flex ${fullWidth ? "w-full" : "max-w-full"}`}

@@ -1,5 +1,5 @@
-import { Toast } from '@base-ui/react/toast';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { Toast } from "@base-ui/react/toast";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 type ToastVariant = "success" | "error" | "info";
 
@@ -24,9 +24,9 @@ export default function ToastProvider() {
 function ToastList() {
   const { toasts } = Toast.useToastManager<CustomToastData>();
   return toasts.map((toast) => (
-    <Toast.Root 
-      key={toast.id} 
-      toast={toast} 
+    <Toast.Root
+      key={toast.id}
+      toast={toast}
       // todo : animations for entering/exiting toasts
       className={`
         shadow-lg
@@ -34,11 +34,13 @@ function ToastList() {
         py-4 px-8 relative
         z-[calc(1000-var(--toast-index))]
         h-(--toast-height)
-        ${toast.data?.variant === "error"
-          ? "bg-red-700"
-          : toast.data?.variant === "success"
-            ? "bg-green-700"
-            : "bg-blue-700"}
+        ${
+          toast.data?.variant === "error"
+            ? "bg-red-700"
+            : toast.data?.variant === "success"
+              ? "bg-green-700"
+              : "bg-blue-700"
+        }
         text-white
         transition-[transform,opacity,height]
         duration-500
@@ -61,7 +63,7 @@ function ToastList() {
         [--gap:0.75rem]
         [--peek:0.75rem]
       `}
-      >
+    >
       <Toast.Content className="w-100 overflow-hidden">
         <Toast.Title className="text-sm mb-1" />
         <Toast.Description className="text-sm mb-0" />

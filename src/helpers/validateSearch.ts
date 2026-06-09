@@ -6,4 +6,4 @@ export const validateSearch = (search: Record<string, unknown>): ToolsSearchPara
   input_format: search.input_format as string | undefined,
   output_format: search.output_format as string | undefined,
   tag: search.tag as string | undefined,
-})
+});
