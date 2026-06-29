@@ -29,8 +29,6 @@
     "@tanstack/react-virtual": "^3.14.2",
     "@tanstack/router-plugin": "^1.132.0",
     "@uiw/react-json-view": "2.0.0-alpha.43",
-    "githubDark": "link:@uiw/react-json-view/githubDark",
-    "githubLight": "link:@uiw/react-json-view/githubLight",
     "he": "^1.2.0",
     "lucide-react": "^0.545.0",
     "oidc-spa": "^10.2.3",
