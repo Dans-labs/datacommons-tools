@@ -14,7 +14,7 @@ RUN pnpm run build
 FROM node:22-alpine
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
-COPY --from=builder /app/.output ./.output
+COPY --from=builder /app/dist ./dist
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 EXPOSE 3000
