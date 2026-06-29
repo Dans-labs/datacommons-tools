@@ -43,7 +43,7 @@ jobs:
             set -e
             cd ${{ secrets.SERVER_APP_DIR }}
             cd datacommons-tools
-            git fetch --tags
+            git fetch --tags --force
             git checkout -f ${{ github.event.release.tag_name }}
             cd ..
             # VITE_TOOLS_API is a build arg, runtime vars go in environment
