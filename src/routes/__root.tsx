@@ -14,6 +14,8 @@ import { getLocale } from "@/paraglide/runtime.js";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import ToastProvider from "@/components/Toast";
 import NotFound from "#/components/NotFound";
+import { getApiServerConfig } from "#/api/api-config";
+import { setApiBaseUrl } from "#/api/client";
 
 export const Route = createRootRouteWithContext<RouteContext>()({
   head: () => ({
@@ -46,6 +48,11 @@ export const Route = createRootRouteWithContext<RouteContext>()({
   component: RootComponent,
   notFoundComponent: NotFound,
   errorComponent: NotFound,
+  beforeLoad: async () => {
+    const apiConfig = await getApiServerConfig();
+    setApiBaseUrl(apiConfig.baseUrl);
+    return { apiConfig };
+  }
 });
 
 function RootComponent() {

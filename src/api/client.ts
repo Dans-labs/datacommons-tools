@@ -1,9 +1,27 @@
 import { fetchWithAuth } from "@/oidc";
 
-const BASE_URL =
-  typeof window === "undefined"
-    ? process.env.TOOLS_API
-    : (import.meta.env.VITE_TOOLS_API as string);
+let baseUrl: string | undefined;
+let configPromise: Promise<string> | undefined;
+
+if (typeof window === "undefined") {
+  baseUrl = process.env.API;
+}
+
+export function setApiBaseUrl(url: string) {
+  baseUrl = url;
+}
+
+async function ensureBaseUrl(): Promise<string> {
+  if (baseUrl) return baseUrl;
+  if (!configPromise) {
+    configPromise = import("./api-config").then(async (m) => {
+      const config = await m.getApiServerConfig();
+      baseUrl = config.baseUrl;
+      return baseUrl;
+    });
+  }
+  return configPromise;
+}
 
 export async function apiFetch<T>(
   path: string,
@@ -14,10 +32,11 @@ export async function apiFetch<T>(
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
   };
+  const url = await ensureBaseUrl();
 
   const res = auth
-    ? await fetchWithAuth(`${BASE_URL}${path}`, { ...options, headers })
-    : await fetch(`${BASE_URL}${path}`, { ...options, headers });
+    ? await fetchWithAuth(`${url}${path}`, { ...options, headers })
+    : await fetch(`${url}${path}`, { ...options, headers });
 
   if (!res.ok) {
     const body = await res.text();
@@ -38,10 +57,11 @@ export async function apiFetchWithHeaders<T>(
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
   };
+  const url = await ensureBaseUrl();
 
   const res = auth
-    ? await fetchWithAuth(`${BASE_URL}${path}`, { ...options, headers })
-    : await fetch(`${BASE_URL}${path}`, { ...options, headers });
+    ? await fetchWithAuth(`${url}${path}`, { ...options, headers })
+    : await fetch(`${url}${path}`, { ...options, headers });
 
   if (!res.ok) {
     const body = await res.text();

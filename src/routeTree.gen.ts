@@ -8,165 +8,172 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as AuthenticatedRouteImport } from "./routes/_authenticated";
-import { Route as IndexRouteImport } from "./routes/index";
-import { Route as ToolsIdRouteImport } from "./routes/tools/$id";
-import { Route as AuthenticatedToolsNewRouteImport } from "./routes/_authenticated/tools/new";
-import { Route as AuthenticatedToolsMyToolsRouteImport } from "./routes/_authenticated/tools/my-tools";
-import { Route as AuthenticatedToolsIdEditRouteImport } from "./routes/_authenticated/tools/$id.edit";
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ToolsIdRouteImport } from './routes/tools/$id'
+import { Route as AuthenticatedToolsNewRouteImport } from './routes/_authenticated/tools/new'
+import { Route as AuthenticatedToolsMyToolsRouteImport } from './routes/_authenticated/tools/my-tools'
+import { Route as AuthenticatedToolsIdEditRouteImport } from './routes/_authenticated/tools/$id.edit'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
-  id: "/_authenticated",
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const IndexRoute = IndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const ToolsIdRoute = ToolsIdRouteImport.update({
-  id: "/tools/$id",
-  path: "/tools/$id",
+  id: '/tools/$id',
+  path: '/tools/$id',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthenticatedToolsNewRoute = AuthenticatedToolsNewRouteImport.update({
-  id: "/tools/new",
-  path: "/tools/new",
+  id: '/tools/new',
+  path: '/tools/new',
   getParentRoute: () => AuthenticatedRoute,
-} as any);
-const AuthenticatedToolsMyToolsRoute = AuthenticatedToolsMyToolsRouteImport.update({
-  id: "/tools/my-tools",
-  path: "/tools/my-tools",
-  getParentRoute: () => AuthenticatedRoute,
-} as any);
-const AuthenticatedToolsIdEditRoute = AuthenticatedToolsIdEditRouteImport.update({
-  id: "/tools/$id/edit",
-  path: "/tools/$id/edit",
-  getParentRoute: () => AuthenticatedRoute,
-} as any);
+} as any)
+const AuthenticatedToolsMyToolsRoute =
+  AuthenticatedToolsMyToolsRouteImport.update({
+    id: '/tools/my-tools',
+    path: '/tools/my-tools',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedToolsIdEditRoute =
+  AuthenticatedToolsIdEditRouteImport.update({
+    id: '/tools/$id/edit',
+    path: '/tools/$id/edit',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/tools/$id": typeof ToolsIdRoute;
-  "/tools/my-tools": typeof AuthenticatedToolsMyToolsRoute;
-  "/tools/new": typeof AuthenticatedToolsNewRoute;
-  "/tools/$id/edit": typeof AuthenticatedToolsIdEditRoute;
+  '/': typeof IndexRoute
+  '/tools/$id': typeof ToolsIdRoute
+  '/tools/my-tools': typeof AuthenticatedToolsMyToolsRoute
+  '/tools/new': typeof AuthenticatedToolsNewRoute
+  '/tools/$id/edit': typeof AuthenticatedToolsIdEditRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/tools/$id": typeof ToolsIdRoute;
-  "/tools/my-tools": typeof AuthenticatedToolsMyToolsRoute;
-  "/tools/new": typeof AuthenticatedToolsNewRoute;
-  "/tools/$id/edit": typeof AuthenticatedToolsIdEditRoute;
+  '/': typeof IndexRoute
+  '/tools/$id': typeof ToolsIdRoute
+  '/tools/my-tools': typeof AuthenticatedToolsMyToolsRoute
+  '/tools/new': typeof AuthenticatedToolsNewRoute
+  '/tools/$id/edit': typeof AuthenticatedToolsIdEditRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  "/": typeof IndexRoute;
-  "/_authenticated": typeof AuthenticatedRouteWithChildren;
-  "/tools/$id": typeof ToolsIdRoute;
-  "/_authenticated/tools/my-tools": typeof AuthenticatedToolsMyToolsRoute;
-  "/_authenticated/tools/new": typeof AuthenticatedToolsNewRoute;
-  "/_authenticated/tools/$id/edit": typeof AuthenticatedToolsIdEditRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/tools/$id': typeof ToolsIdRoute
+  '/_authenticated/tools/my-tools': typeof AuthenticatedToolsMyToolsRoute
+  '/_authenticated/tools/new': typeof AuthenticatedToolsNewRoute
+  '/_authenticated/tools/$id/edit': typeof AuthenticatedToolsIdEditRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/" | "/tools/$id" | "/tools/my-tools" | "/tools/new" | "/tools/$id/edit";
-  fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "/tools/$id" | "/tools/my-tools" | "/tools/new" | "/tools/$id/edit";
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/tools/$id'
+    | '/tools/my-tools'
+    | '/tools/new'
+    | '/tools/$id/edit'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/tools/$id' | '/tools/my-tools' | '/tools/new' | '/tools/$id/edit'
   id:
-    | "__root__"
-    | "/"
-    | "/_authenticated"
-    | "/tools/$id"
-    | "/_authenticated/tools/my-tools"
-    | "/_authenticated/tools/new"
-    | "/_authenticated/tools/$id/edit";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/tools/$id'
+    | '/_authenticated/tools/my-tools'
+    | '/_authenticated/tools/new'
+    | '/_authenticated/tools/$id/edit'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren;
-  ToolsIdRoute: typeof ToolsIdRoute;
+  IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  ToolsIdRoute: typeof ToolsIdRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/_authenticated": {
-      id: "/_authenticated";
-      path: "";
-      fullPath: "/";
-      preLoaderRoute: typeof AuthenticatedRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/tools/$id": {
-      id: "/tools/$id";
-      path: "/tools/$id";
-      fullPath: "/tools/$id";
-      preLoaderRoute: typeof ToolsIdRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_authenticated/tools/new": {
-      id: "/_authenticated/tools/new";
-      path: "/tools/new";
-      fullPath: "/tools/new";
-      preLoaderRoute: typeof AuthenticatedToolsNewRouteImport;
-      parentRoute: typeof AuthenticatedRoute;
-    };
-    "/_authenticated/tools/my-tools": {
-      id: "/_authenticated/tools/my-tools";
-      path: "/tools/my-tools";
-      fullPath: "/tools/my-tools";
-      preLoaderRoute: typeof AuthenticatedToolsMyToolsRouteImport;
-      parentRoute: typeof AuthenticatedRoute;
-    };
-    "/_authenticated/tools/$id/edit": {
-      id: "/_authenticated/tools/$id/edit";
-      path: "/tools/$id/edit";
-      fullPath: "/tools/$id/edit";
-      preLoaderRoute: typeof AuthenticatedToolsIdEditRouteImport;
-      parentRoute: typeof AuthenticatedRoute;
-    };
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/$id': {
+      id: '/tools/$id'
+      path: '/tools/$id'
+      fullPath: '/tools/$id'
+      preLoaderRoute: typeof ToolsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/tools/new': {
+      id: '/_authenticated/tools/new'
+      path: '/tools/new'
+      fullPath: '/tools/new'
+      preLoaderRoute: typeof AuthenticatedToolsNewRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/tools/my-tools': {
+      id: '/_authenticated/tools/my-tools'
+      path: '/tools/my-tools'
+      fullPath: '/tools/my-tools'
+      preLoaderRoute: typeof AuthenticatedToolsMyToolsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/tools/$id/edit': {
+      id: '/_authenticated/tools/$id/edit'
+      path: '/tools/$id/edit'
+      fullPath: '/tools/$id/edit'
+      preLoaderRoute: typeof AuthenticatedToolsIdEditRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedToolsMyToolsRoute: typeof AuthenticatedToolsMyToolsRoute;
-  AuthenticatedToolsNewRoute: typeof AuthenticatedToolsNewRoute;
-  AuthenticatedToolsIdEditRoute: typeof AuthenticatedToolsIdEditRoute;
+  AuthenticatedToolsMyToolsRoute: typeof AuthenticatedToolsMyToolsRoute
+  AuthenticatedToolsNewRoute: typeof AuthenticatedToolsNewRoute
+  AuthenticatedToolsIdEditRoute: typeof AuthenticatedToolsIdEditRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedToolsMyToolsRoute: AuthenticatedToolsMyToolsRoute,
   AuthenticatedToolsNewRoute: AuthenticatedToolsNewRoute,
   AuthenticatedToolsIdEditRoute: AuthenticatedToolsIdEditRoute,
-};
+}
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
-);
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   ToolsIdRoute: ToolsIdRoute,
-};
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from "./router.tsx";
-import type { createStart } from "@tanstack/react-start";
-declare module "@tanstack/react-start" {
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
   interface Register {
-    ssr: true;
-    router: Awaited<ReturnType<typeof getRouter>>;
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
   }
 }
