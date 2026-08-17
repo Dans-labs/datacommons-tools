@@ -8,6 +8,7 @@ import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { oidcSpa } from "oidc-spa/vite-plugin";
+import { nitroV2Plugin } from "@tanstack/nitro-v2-vite-plugin";
 
 const config = defineConfig({
   staged: {
@@ -30,6 +31,7 @@ const config = defineConfig({
     }),
     tailwindcss(),
     tanstackStart(),
+    nitroV2Plugin({ preset: "node-server" }),
     viteReact(),
     babel({ presets: [reactCompilerPreset()] }),
   ],
