@@ -6,8 +6,6 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
-ARG VITE_TOOLS_API
-ENV VITE_TOOLS_API=$VITE_TOOLS_API
 RUN pnpm run build
 
 # Stage 2: Run
