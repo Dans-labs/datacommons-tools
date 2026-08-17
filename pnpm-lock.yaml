@@ -9,11 +9,14 @@ importers:
   .:
     dependencies:
       '@base-ui/react':
-        specifier: ^1.5.0
-        version: 1.5.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^1.6.0
+        version: 1.7.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@faker-js/faker':
         specifier: ^10.3.0
         version: 10.4.0
+      '@fontsource-variable/quicksand':
+        specifier: ^5.2.10
+        version: 5.3.0
       '@heroicons/react':
         specifier: ^2.2.0
         version: 2.2.0(react@19.2.7)
@@ -54,8 +57,8 @@ importers:
         specifier: ^0.545.0
         version: 0.545.0(react@19.2.7)
       oidc-spa:
-        specifier: ^10.2.3
-        version: 10.2.3(@tanstack/react-router@1.170.29(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@tanstack/react-start@1.168.46(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(crossws@0.4.10(srvx@0.11.16))(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
+        specifier: ^10.2.11
+        version: 10.2.11(@tanstack/react-router@1.170.29(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@tanstack/react-start@1.168.46(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(crossws@0.4.10(srvx@0.11.16))(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
       outline:
         specifier: link:@heroicons/react/24/outline
         version: link:@heroicons/react/24/outline
@@ -236,8 +239,8 @@ packages:
     resolution: {integrity: sha512-4zBIxpPzowiZpusoFkyGVwakdRJUyuH5PxQ/PrqghfdFWWasvnCdPfQXHrenDai+gyLARulZjZowCOj6fjT4pA==}
     engines: {node: '>=6.9.0'}
 
-  '@base-ui/react@1.5.0':
-    resolution: {integrity: sha512-z1gSAlced1yY+iM+mHDEtIkD8UI3Ebs52MuBPxvV6f5hRutk+xvCH/wuB7hDqDzK9JG5FoMz5nhrqtSs1wjt1A==}
+  '@base-ui/react@1.7.0':
+    resolution: {integrity: sha512-j+8QjX44C32jrXD/qyEAGpFr70FRpGL2CY61mQd9nBPWN737CK0xxD1ceJ055rW4RtdvFDT1e7otzdlfxvsYug==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       '@date-fns/tz': ^1.2.0
@@ -253,8 +256,8 @@ packages:
       date-fns:
         optional: true
 
-  '@base-ui/utils@0.2.9':
-    resolution: {integrity: sha512-x/PDDCYzoqPpjrdyb3VcyylTI2IjUXEtYDGi5foh7KsnmNJIIaVwA2GLgDH1dps1GgXiJbA60hM+AyuTfQzIvw==}
+  '@base-ui/utils@0.3.2':
+    resolution: {integrity: sha512-oWy1aq/I2GmYjpl4PhEAhzflF8VPGKgZeq0xAWTbfD5KBWyxcN0ZP2+WHSUm/5Z6lVMBDLReLcoXwSYoRc/zNQ==}
     peerDependencies:
       '@types/react': ^17 || ^18 || ^19
       react: ^17 || ^18 || ^19
@@ -488,20 +491,23 @@ packages:
     resolution: {integrity: sha512-sDBWI3yLy8EcDzgobvJTWq1MJYzAkQdpjXuPukga9wXonhpMRvd1Izuo2Qgwey2OiEoRIBr35RMU9HJRoOHzpw==}
     engines: {node: ^20.19.0 || ^22.13.0 || ^23.5.0 || >=24.0.0, npm: '>=10'}
 
-  '@floating-ui/core@1.7.5':
-    resolution: {integrity: sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==}
+  '@floating-ui/core@1.8.0':
+    resolution: {integrity: sha512-0CIZ5itps/8x7BG8dEIhs53BvCUH2PCoogtakwRTut+Arm58sJooJ0AuZhLw2HJYIR5cMLNPBSS728sPho2khQ==}
 
-  '@floating-ui/dom@1.7.6':
-    resolution: {integrity: sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==}
+  '@floating-ui/dom@1.8.0':
+    resolution: {integrity: sha512-yXSrzeHZBTZadLOlfyhCkJHNeLJnHRnRInwdZ40L7ZiaAtrBwoYlsDrX3v5zB1Utk7CLfzcOVnVVWoXEky7Ceg==}
 
-  '@floating-ui/react-dom@2.1.8':
-    resolution: {integrity: sha512-cC52bHwM/n/CxS87FH0yWdngEZrjdtLW/qVruo68qg+prK7ZQ4YGdut2GyDVpoGeAYe/h899rVeOVm6Oi40k2A==}
+  '@floating-ui/react-dom@2.1.9':
+    resolution: {integrity: sha512-JDjEFGCpImxDCA7JJKviA0M9+RtmJdj0m/NVU5IMgBK+AmZouAQQ7/+2GLH0GXXY0YMw9oXPB8hKdbPYg5QLYg==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  '@floating-ui/utils@0.2.11':
-    resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
+  '@floating-ui/utils@0.2.12':
+    resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
+
+  '@fontsource-variable/quicksand@5.3.0':
+    resolution: {integrity: sha512-EMyoXnGC0uIbjyHDB01MTJoQuODsMo7Q/4XLEwN97YJEeV1WIVFI0QBiW2exGnxvhnMHb+IwQ9E5QZDgGMWCHw==}
 
   '@heroicons/react@2.2.0':
     resolution: {integrity: sha512-LMcepvRaS9LYHJGsF0zzmgKCUim/X3N/DQKc4jepAXJ7l8QxJ1PmxJzqplF2Z3FE4PqBAIGyJAQ/w4B5dsqbtQ==}
@@ -3580,15 +3586,15 @@ packages:
   ohash@2.0.12:
     resolution: {integrity: sha512-65S/5gk9YSsaRjcyf7Nfa6h/d3E8/1gslpXfI4W7Dxn/oap8IKRuNT5VXkLQ1YFKIEg4apRY4Pj6aiwFzrDdmw==}
 
-  oidc-spa@10.2.3:
-    resolution: {integrity: sha512-rbxDM5Ss1DLhXpjR35S6eGoI9o3+S8Z7gQVEn2yg4t11iM0nDI/XXxu+NDhuKKDwZaqCeeJYNZnUEc6rXG2lKQ==}
+  oidc-spa@10.2.11:
+    resolution: {integrity: sha512-2g8m3PNxB/jNpsv4G5Nns/qFPjRKdKlYqlrQaMpIVdCV3ug8a326lHi2SOderTO5Ocboa+zMbpWVXtLJRCYP7g==}
     peerDependencies:
       '@angular/common': '*'
       '@angular/core': '*'
       '@angular/router': '*'
       '@nuxt/kit': '*'
       '@tanstack/react-router': '*'
-      '@tanstack/react-start': '*'
+      '@tanstack/react-start': '>=1.168.25'
       '@types/react': '*'
       react: '*'
       rxjs: '*'
@@ -4710,22 +4716,22 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@base-ui/react@1.5.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@base-ui/react@1.7.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       '@babel/runtime': 7.29.7
-      '@base-ui/utils': 0.2.9(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@floating-ui/react-dom': 2.1.8(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@floating-ui/utils': 0.2.11
+      '@base-ui/utils': 0.3.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@floating-ui/react-dom': 2.1.9(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@floating-ui/utils': 0.2.12
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
       use-sync-external-store: 1.6.0(react@19.2.7)
     optionalDependencies:
       '@types/react': 19.2.17
 
-  '@base-ui/utils@0.2.9(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@base-ui/utils@0.3.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       '@babel/runtime': 7.29.7
-      '@floating-ui/utils': 0.2.11
+      '@floating-ui/utils': 0.2.12
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
       reselect: 5.2.0
@@ -4863,22 +4869,24 @@ snapshots:
 
   '@faker-js/faker@10.4.0': {}
 
-  '@floating-ui/core@1.7.5':
+  '@floating-ui/core@1.8.0':
     dependencies:
-      '@floating-ui/utils': 0.2.11
+      '@floating-ui/utils': 0.2.12
 
-  '@floating-ui/dom@1.7.6':
+  '@floating-ui/dom@1.8.0':
     dependencies:
-      '@floating-ui/core': 1.7.5
-      '@floating-ui/utils': 0.2.11
+      '@floating-ui/core': 1.8.0
+      '@floating-ui/utils': 0.2.12
 
-  '@floating-ui/react-dom@2.1.8(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@floating-ui/react-dom@2.1.9(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@floating-ui/dom': 1.7.6
+      '@floating-ui/dom': 1.8.0
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
 
-  '@floating-ui/utils@0.2.11': {}
+  '@floating-ui/utils@0.2.12': {}
+
+  '@fontsource-variable/quicksand@5.3.0': {}
 
   '@heroicons/react@2.2.0(react@19.2.7)':
     dependencies:
@@ -6113,29 +6121,12 @@ snapshots:
       '@rolldown/plugin-babel': 0.2.3(@babel/core@7.29.7)(@babel/runtime@7.29.7)(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(rolldown@1.1.0)
       babel-plugin-react-compiler: 1.0.0
 
-  '@vitest/browser-preview@4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(@voidzero-dev/vite-plus-test@0.1.24(@types/node@22.19.20)(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(jsdom@28.1.0)(terser@5.50.0)(typescript@6.0.3))':
+  '@vitest/browser-preview@4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(vitest@4.1.10)':
     dependencies:
       '@testing-library/dom': 10.4.1
       '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.1)
-      '@vitest/browser': 4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(@voidzero-dev/vite-plus-test@0.1.24(@types/node@22.19.20)(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(jsdom@28.1.0)(terser@5.50.0)(typescript@6.0.3))
-      vitest: '@voidzero-dev/vite-plus-test@0.1.24(@types/node@22.19.20)(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(jsdom@28.1.0)(terser@5.50.0)(typescript@6.0.3)'
-    transitivePeerDependencies:
-      - bufferutil
-      - msw
-      - utf-8-validate
-      - vite
-
-  '@vitest/browser@4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(@voidzero-dev/vite-plus-test@0.1.24(@types/node@22.19.20)(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(jsdom@28.1.0)(terser@5.50.0)(typescript@6.0.3))':
-    dependencies:
-      '@blazediff/core': 1.9.1
-      '@vitest/mocker': 4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))
-      '@vitest/utils': 4.1.10
-      magic-string: 0.30.21
-      pngjs: 7.0.0
-      sirv: 3.0.2
-      tinyrainbow: 3.1.0
-      vitest: '@voidzero-dev/vite-plus-test@0.1.24(@types/node@22.19.20)(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(jsdom@28.1.0)(terser@5.50.0)(typescript@6.0.3)'
-      ws: 8.21.0
+      '@vitest/browser': 4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(vitest@4.1.10)
+      vitest: 4.1.10(@types/node@22.19.20)(@vitest/browser-preview@4.1.10)(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(jsdom@28.1.0)
     transitivePeerDependencies:
       - bufferutil
       - msw
@@ -7727,7 +7718,7 @@ snapshots:
 
   ohash@2.0.12: {}
 
-  oidc-spa@10.2.3(@tanstack/react-router@1.170.29(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@tanstack/react-start@1.168.46(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(crossws@0.4.10(srvx@0.11.16))(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react@19.2.17)(react@19.2.7):
+  oidc-spa@10.2.11(@tanstack/react-router@1.170.29(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@tanstack/react-start@1.168.46(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(crossws@0.4.10(srvx@0.11.16))(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react@19.2.17)(react@19.2.7):
     optionalDependencies:
       '@tanstack/react-router': 1.170.29(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@tanstack/react-start': 1.168.46(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(crossws@0.4.10(srvx@0.11.16))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -8332,7 +8323,7 @@ snapshots:
   terser@5.50.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
-      acorn: 8.16.0
+      acorn: 8.18.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
@@ -8578,7 +8569,7 @@ snapshots:
       '@oxc-project/types': 0.143.0
       '@oxlint/plugins': 1.73.0
       '@vitest/browser': 4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(vitest@4.1.10)
-      '@vitest/browser-preview': 4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(@voidzero-dev/vite-plus-test@0.1.24(@types/node@22.19.20)(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(jsdom@28.1.0)(terser@5.50.0)(typescript@6.0.3))
+      '@vitest/browser-preview': 4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(vitest@4.1.10)
       '@vitest/expect': 4.1.10
       '@vitest/mocker': 4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))
       '@vitest/pretty-format': 4.1.10
@@ -8659,7 +8650,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 22.19.20
-      '@vitest/browser-preview': 4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(@voidzero-dev/vite-plus-test@0.1.24(@types/node@22.19.20)(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(esbuild@0.28.2)(jiti@2.7.0)(jsdom@28.1.0)(terser@5.50.0)(typescript@6.0.3))
+      '@vitest/browser-preview': 4.1.10(@voidzero-dev/vite-plus-core@0.2.9(@types/node@22.19.20)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(typescript@6.0.3))(vitest@4.1.10)
       jsdom: 28.1.0
     transitivePeerDependencies:
       - msw

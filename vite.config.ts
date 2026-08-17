@@ -23,7 +23,6 @@ const config = defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [
     devtools(),
-    oidcSpa(),
     paraglideVitePlugin({
       project: "./project.inlang",
       outdir: "./src/paraglide",
@@ -33,6 +32,7 @@ const config = defineConfig({
     tanstackStart(),
     nitroV2Plugin({ preset: "node-server" }),
     viteReact(),
+    oidcSpa(),
     babel({ presets: [reactCompilerPreset()] }),
   ],
 });
